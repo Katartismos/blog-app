@@ -54,7 +54,7 @@ const Page = () => {
       {/* Header animation handled internally */}
       <Header />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" ref={mainRef}>
+      <main className="max-w-[90%] mx-auto px-4 sm:px-2 lg:px-20 py-10" ref={mainRef}>
           
         {/* Featured Articles Section (Cards animated internally and staggered here) */}
         <section className="mb-16">
@@ -92,12 +92,12 @@ const Page = () => {
 
               {/* Row 2 (Large + Two Small) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <LatestArticleCard article={articleMap.col1[1]} /> 
                 <div className="space-y-8">
                   {articleMap.col2_row2.map(article => (
                     <LatestArticleCard key={article.id} article={article} />
                   ))}
                 </div>
+                <LatestArticleCard article={articleMap.col1[1]} /> 
               </div>
 
               {/* Load More Button */}
