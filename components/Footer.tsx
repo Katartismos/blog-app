@@ -52,7 +52,7 @@ const Footer = () => {
 
         {/* Bottom Row */}
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
-          <p>&copy; 2024 BLOGIFY. All rights reserved.</p>
+          <p>&copy; 2026 BLOGIFY. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <Facebook size={20} className="social-icon hover:text-indigo-400 transition cursor-pointer" />
             <Twitter size={20} className="social-icon hover:text-indigo-400 transition cursor-pointer" />
