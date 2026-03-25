@@ -3,13 +3,19 @@
 import { useRef } from 'react'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
+import Link from 'next/link';
 import Image from 'next/image'
 
-import type { ArticleProps } from '@/lib/constants'
+import type { Article } from '@/lib/constants'
 
-const FeaturedArticleCard: React.FC<ArticleProps> = ({ article }) => {
-  const { id, title, excerpt, imageUrl, categoryColor } = article;
-  const cardRef = useRef<HTMLDivElement | null>(null);
+interface FeaturedArticleProps {
+  article: Article;
+  index: number;
+}
+
+const FeaturedArticleCard: React.FC<FeaturedArticleProps> = ({ article, index }) => {
+  const { title, excerpt, imageUrl, categoryColor } = article;
+  const cardRef = useRef<HTMLAnchorElement | null>(null);
 
   useGSAP(() => {
     const ctx = gsap.context(() => {
@@ -21,7 +27,7 @@ const FeaturedArticleCard: React.FC<ArticleProps> = ({ article }) => {
         y: 50,
         opacity: 0,
         duration: 0.8,
-        delay: 0.6 + id * 0.15, // Stagger based on id
+        delay: 0.6 + index * 0.15, // Stagger based on index
         ease: "back.out(1.2)"
       });
 
@@ -36,10 +42,10 @@ const FeaturedArticleCard: React.FC<ArticleProps> = ({ article }) => {
     });
 
     return () => ctx.revert();
-  }, { scope: cardRef, dependencies: [id] });
+  }, { scope: cardRef, dependencies: [index] });
   
   return (
-    <div className="relative h-90 w-full rounded-xl overflow-hidden shadow-xl group" ref={cardRef}>
+    <Link href={article.slug ? `/blog/${article.slug}` : '#'} className="relative block h-90 w-full rounded-xl overflow-hidden shadow-xl group" ref={cardRef}>
       <Image 
         src={imageUrl} 
         alt={title} 
@@ -58,11 +64,11 @@ const FeaturedArticleCard: React.FC<ArticleProps> = ({ article }) => {
         </span>
         <h3 className="text-xl font-bold text-white mb-2 line-clamp-2">{title}</h3>
         <p className="text-sm text-gray-300 line-clamp-2">{excerpt}</p>
-        <button className="mt-4 w-32 px-4 py-2 bg-white text-gray-800 text-sm font-semibold rounded-full hover:bg-gray-200 transition duration-150 cursor-pointer">
+        <span className="mt-4 inline-block text-center w-32 px-4 py-2 bg-white text-gray-800 text-sm font-semibold rounded-full hover:bg-gray-200 transition duration-150 cursor-pointer">
           READ MORE
-        </button>
+        </span>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -1,126 +1,28 @@
-'use client'
+import connectToDatabase from '@/lib/mongodb';
+import BlogPost from '@/lib/models/BlogPost';
+import HomeClient from '@/components/HomeClient';
+import type { Article } from '@/lib/constants';
 
-import { useRef } from 'react'
-import { gsap } from 'gsap'
-import { useGSAP } from '@gsap/react'
+export default async function Page() {
+  await connectToDatabase();
 
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import FeaturedArticleCard from '@/components/FeaturedArticle'
-import LatestArticleCard from '@/components/LatestArticle'
-import Sidebar from '@/components/Sidebar'
+  const posts = await BlogPost.find({}).sort({ createdAt: -1 }).lean();
 
-import { featuredArticles, latestArticles } from '@/lib/constants'
+  // Map to Article, converting _id to string and providing fallbacks for legacy posts
+  const serializedPosts: Article[] = posts.map((post: any) => ({
+    ...post,
+    _id: post._id.toString(),
+    title: post.title || 'Untitled',
+    imageUrl: post.imageUrl || 'https://placehold.co/800x600/374151/ffffff?text=No+Image',
+    category: post.category || 'TECHNOLOGY',
+    categoryColor: post.categoryColor || 'bg-indigo-600',
+    date: post.date || (post.createdAt ? new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Unknown Date'),
+    readTime: post.readTime || '5-min read',
+    excerpt: post.excerpt || (post.content ? post.content.substring(0, 100) + '...' : 'No excerpt available.'),
+  }));
 
-const articleMap = {
-  col1: [latestArticles[0], latestArticles[3]],
-  col2_row1: [latestArticles[1], latestArticles[2]],
-  col2_row2: [latestArticles[4], latestArticles[5]],
-};
+  const featuredArticles = serializedPosts.slice(0, 3);
+  const latestArticles = serializedPosts.slice(3, 9);
 
-
-const Page = () => {
-  const mainRef = useRef<HTMLDivElement | null>(null);
-
-  useGSAP(() => {
-    // Animation for the "Explore Our Latest Articles" text
-    gsap.from(".latest-articles-title", {
-      y: 20,
-      opacity: 0,
-      duration: 0.7,
-      delay: 1.0, 
-      ease: "power2.out"
-    });
-
-    // Animation for the "WHAT'S NEW" section title
-    gsap.from(".whats-new-title", {
-      x: -20,
-      opacity: 0,
-      duration: 0.6,
-      delay: 1.2, 
-      ease: "power1.out"
-    });
-
-    // Staggered animation for all latest articles
-    gsap.fromTo(".latest-article-card", 
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, delay: 1.3, ease: "power2.out", onComplete: () => { gsap.set(".latest-article-card", { clearProps: "transform" }); } }
-    );
-
-  }, { scope: mainRef });
-
-  return (
-    <div className="min-h-screen bg-gray-50 font-inter antialiased">
-      {/* Header animation handled internally */}
-      <Header />
-
-      <main className="max-w-[90%] mx-auto px-4 sm:px-2 lg:px-20 py-10" ref={mainRef}>
-          
-        {/* Featured Articles Section (Cards animated internally and staggered here) */}
-        <section className="mb-16">
-          <h2 className="sr-only">Featured Articles</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredArticles.map(article => (
-              <FeaturedArticleCard key={article.id} article={article} />
-            ))}
-          </div>
-          
-          <div className="mt-12">
-            <h3 className="latest-articles-title text-xl font-bold text-gray-800 mb-2">EXPLORE OUR LATEST ARTICLES</h3>
-            <a href="#" className="latest-articles-title text-indigo-600 hover:text-indigo-800 text-sm font-medium">Join Our Community.</a>
-          </div>
-        </section>
-
-        {/* What's New & Main Content Grid */}
-        <section>
-          <h3 className="whats-new-title text-2xl font-bold text-gray-800 mb-8 pb-2 border-b-2 border-indigo-600 inline-block">WHAT'S NEW</h3>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-              
-            {/* 1. Main Article Content (2/3 width on desktop) */}
-            <div className="lg:col-span-2 grid gap-8">
-                
-              {/* Row 1 (Large + Two Small) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <LatestArticleCard article={articleMap.col1[0]} /> 
-                <div className="flex flex-col gap-8 h-full">
-                  {articleMap.col2_row1.map(article => (
-                    <LatestArticleCard key={article.id} article={article} />
-                  ))}
-                </div>
-              </div>
-
-              {/* Row 2 (Large + Two Small) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="flex flex-col gap-8 h-full">
-                  {articleMap.col2_row2.map(article => (
-                    <LatestArticleCard key={article.id} article={article} />
-                  ))}
-                </div>
-                <LatestArticleCard article={articleMap.col1[1]} /> 
-              </div>
-
-              {/* Load More Button */}
-              <div className="text-center pt-8">
-                <button className="latest-articles-title px-6 py-2 border border-gray-300 text-gray-600 font-semibold rounded-full hover:bg-gray-100 transition">
-                  Load More
-                </button>
-              </div>
-            </div>
-
-            {/* 2. Sidebar (1/3 width on desktop) */}
-            <div className="lg:col-span-1">
-              {/* Sidebar animation handled internally */}
-              <Sidebar />
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer animation handled internally */}
-      <Footer />
-    </div>
-  );
-};
-
-export default Page;
+  return <HomeClient featuredArticles={featuredArticles} latestArticles={latestArticles} />;
+}
