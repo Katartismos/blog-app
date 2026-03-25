@@ -4,24 +4,12 @@ import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 
-// Assuming data imports from lib/constants:
-// import { TOPICS, TAGS } from '@/lib/constants';
-
 const FALLBACK_TOPICS = [
   { name: 'Technology', count: 0 },
   { name: 'Lifestyle', count: 0 },
   { name: 'Travel', count: 0 },
   { name: 'Foods', count: 0 },
   { name: 'Photography', count: 0 },
-];
-
-const TAGS = [
-  { name: 'Europe' },
-  { name: 'AI' },
-  { name: 'Notion' },
-  { name: 'Gadgets' },
-  { name: 'Gaming' },
-  { name: 'Recipes' },
 ];
 
 interface TopicType {
@@ -31,9 +19,11 @@ interface TopicType {
 
 interface SidebarProps {
   topics?: TopicType[];
+  selectedTag?: string;
+  onSelectTag?: (tag: string) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ topics }) => {
+const Sidebar: React.FC<SidebarProps> = ({ topics, selectedTag = 'All', onSelectTag }) => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
 
   useGSAP(() => {
@@ -68,12 +58,17 @@ const Sidebar: React.FC<SidebarProps> = ({ topics }) => {
       <div className="bg-white p-6 rounded-xl shadow-md">
         <h4 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Tag Cloud</h4>
         <div className="flex flex-wrap gap-2">
-          {TAGS.map((tag, index) => (
+          {['All', ...(topics || FALLBACK_TOPICS).map(t => t.name)].map((tag, index) => (
             <span 
               key={index}
-              className="text-xs font-medium px-3 py-1 rounded-full border border-gray-300 text-gray-600 hover:bg-indigo-50 transition cursor-pointer"
+              onClick={() => onSelectTag?.(tag)}
+              className={`text-xs font-medium px-3 py-1 rounded-full border transition cursor-pointer ${
+                selectedTag === tag 
+                  ? 'bg-indigo-600 text-white border-indigo-600' 
+                  : 'border-gray-300 text-gray-600 hover:bg-indigo-50'
+              }`}
             >
-              {tag.name}
+              {tag}
             </span>
           ))}
         </div>
