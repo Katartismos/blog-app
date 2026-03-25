@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
@@ -16,16 +16,22 @@ interface HomeClientProps {
   featuredArticles: Article[];
   latestArticles: Article[];
   hasMore?: boolean;
+  topics?: { name: string; count: number }[];
 }
 
-const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticles, hasMore = false }) => {
+const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticles, hasMore = false, topics }) => {
   const mainRef = useRef<HTMLDivElement | null>(null);
+  const [selectedTag, setSelectedTag] = useState<string>('All');
+
+  const filteredArticles = selectedTag === 'All' 
+    ? latestArticles 
+    : latestArticles.filter(article => (article.category || 'TECHNOLOGY').toUpperCase() === selectedTag.toUpperCase());
 
   // Safe mapping for layout using indexes instead of IDs
   const articleMap = {
-    col1: [latestArticles[0], latestArticles[3]].filter(Boolean),
-    col2_row1: [latestArticles[1], latestArticles[2]].filter(Boolean),
-    col2_row2: [latestArticles[4], latestArticles[5]].filter(Boolean),
+    col1: [filteredArticles[0], filteredArticles[3]].filter(Boolean),
+    col2_row1: [filteredArticles[1], filteredArticles[2]].filter(Boolean),
+    col2_row2: [filteredArticles[4], filteredArticles[5]].filter(Boolean),
   };
 
   useGSAP(() => {
@@ -67,7 +73,9 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
         </section>
 
         <section>
-          <h3 className="whats-new-title text-2xl font-bold text-gray-800 mb-8 pb-2 border-b-2 border-indigo-600 inline-block">WHAT'S NEW</h3>
+          <h3 className="whats-new-title text-2xl font-bold text-gray-800 mb-8 pb-2 border-b-2 border-indigo-600 inline-block">
+            {selectedTag === 'All' ? "WHAT'S NEW" : selectedTag.toUpperCase()}
+          </h3>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
               
@@ -91,7 +99,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
                 {articleMap.col1[1] && <LatestArticleCard article={articleMap.col1[1]} isSmallCard={false} />}
               </div>
 
-              {hasMore && (
+              {(selectedTag === 'All' ? hasMore : (topics?.find(t => t.name.toUpperCase() === selectedTag.toUpperCase())?.count || 0) > 6) && (
                 <div className="text-center pt-8">
                   <Link href="/others" className="inline-block latest-articles-title px-6 py-2 border border-gray-300 text-gray-600 font-semibold rounded-full hover:bg-gray-100 transition cursor-pointer">
                     Load More
@@ -101,7 +109,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
             </div>
 
             <div className="lg:col-span-1">
-              <Sidebar />
+              <Sidebar topics={topics} selectedTag={selectedTag} onSelectTag={setSelectedTag} />
             </div>
           </div>
         </section>

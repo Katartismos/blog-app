@@ -24,5 +24,12 @@ export default async function OthersPage() {
 
   const olderPosts = serializedPosts.slice(9);
 
-  return <OthersClient olderPosts={olderPosts} />;
+  // Calculate dynamic topics
+  const categoriesList = ['TECHNOLOGY', 'TRAVEL', 'FOODS', 'LIFESTYLE', 'FINANCE', 'GAMING'];
+  const topicsInfo = categoriesList.map(cat => ({
+    name: cat.charAt(0) + cat.slice(1).toLowerCase(),
+    count: posts.filter((p: any) => (p.category || 'TECHNOLOGY').toUpperCase() === cat).length
+  }));
+
+  return <OthersClient olderPosts={olderPosts} topics={topicsInfo} />;
 }
