@@ -7,12 +7,12 @@ import { useGSAP } from '@gsap/react';
 // Assuming data imports from lib/constants:
 // import { TOPICS, TAGS } from '@/lib/constants';
 
-const TOPICS = [
-  { name: 'Technology', count: 24 },
-  { name: 'Lifestyle', count: 38 },
-  { name: 'Travel', count: 31 },
-  { name: 'Foods', count: 20 },
-  { name: 'Photography', count: 8 },
+const FALLBACK_TOPICS = [
+  { name: 'Technology', count: 0 },
+  { name: 'Lifestyle', count: 0 },
+  { name: 'Travel', count: 0 },
+  { name: 'Foods', count: 0 },
+  { name: 'Photography', count: 0 },
 ];
 
 const TAGS = [
@@ -24,7 +24,16 @@ const TAGS = [
   { name: 'Recipes' },
 ];
 
-const Sidebar = () => {
+interface TopicType {
+  name: string;
+  count: number;
+}
+
+interface SidebarProps {
+  topics?: TopicType[];
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ topics }) => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
 
   useGSAP(() => {
@@ -46,7 +55,7 @@ const Sidebar = () => {
       <div className="bg-white p-6 rounded-xl shadow-md">
         <h4 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">EXPLORE TOPICS</h4>
         <ul className="space-y-3">
-          {TOPICS.map((topic, index) => (
+          {(topics || FALLBACK_TOPICS).map((topic, index) => (
             <li key={index} className="flex justify-between items-center text-sm text-gray-600 hover:text-indigo-600 transition cursor-pointer">
               <span>{topic.name}</span>
               <span className="text-xs font-medium text-gray-400">({topic.count})</span>
@@ -77,9 +86,9 @@ const Sidebar = () => {
         <input 
           type="email" 
           placeholder="Email Address" 
-          className="w-full p-3 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+          className="w-full p-3 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 text-sm text-black"
         />
-        <button className="mt-3 w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition">
+        <button className="mt-3 w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md cursor-pointer hover:bg-indigo-800 active:bg-indigo-700 transition">
             SUBSCRIBE
         </button>
       </div>

@@ -16,9 +16,10 @@ interface HomeClientProps {
   featuredArticles: Article[];
   latestArticles: Article[];
   hasMore?: boolean;
+  topics?: { name: string; count: number }[];
 }
 
-const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticles, hasMore = false }) => {
+const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticles, hasMore = false, topics }) => {
   const mainRef = useRef<HTMLDivElement | null>(null);
 
   // Safe mapping for layout using indexes instead of IDs
@@ -101,7 +102,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
             </div>
 
             <div className="lg:col-span-1">
-              <Sidebar />
+              <Sidebar topics={topics} />
             </div>
           </div>
         </section>

@@ -26,5 +26,12 @@ export default async function Page() {
   const latestArticles = serializedPosts.slice(3, 9);
   const hasMore = serializedPosts.length > 9;
 
-  return <HomeClient featuredArticles={featuredArticles} latestArticles={latestArticles} hasMore={hasMore} />;
+  // Calculate dynamic topics count based on the 6 predefined categories
+  const categoriesList = ['TECHNOLOGY', 'TRAVEL', 'FOODS', 'LIFESTYLE', 'FINANCE', 'GAMING'];
+  const topicsInfo = categoriesList.map(cat => ({
+    name: cat.charAt(0) + cat.slice(1).toLowerCase(), // e.g. Technology
+    count: posts.filter((p: any) => (p.category || 'TECHNOLOGY').toUpperCase() === cat).length
+  }));
+
+  return <HomeClient featuredArticles={featuredArticles} latestArticles={latestArticles} hasMore={hasMore} topics={topicsInfo} />;
 }
