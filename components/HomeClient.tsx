@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
+import Link from 'next/link'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 
@@ -14,9 +15,10 @@ import type { Article } from '@/lib/constants'
 interface HomeClientProps {
   featuredArticles: Article[];
   latestArticles: Article[];
+  hasMore?: boolean;
 }
 
-const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticles }) => {
+const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticles, hasMore = false }) => {
   const mainRef = useRef<HTMLDivElement | null>(null);
 
   // Safe mapping for layout using indexes instead of IDs
@@ -27,21 +29,15 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
   };
 
   useGSAP(() => {
-    gsap.from(".latest-articles-title", {
-      y: 20,
-      opacity: 0,
-      duration: 0.7,
-      delay: 1.0, 
-      ease: "power2.out"
-    });
+    gsap.fromTo(".latest-articles-title", 
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, delay: 1.0, ease: "power2.out", clearProps: "all" }
+    );
 
-    gsap.from(".whats-new-title", {
-      x: -20,
-      opacity: 0,
-      duration: 0.6,
-      delay: 1.2, 
-      ease: "power1.out"
-    });
+    gsap.fromTo(".whats-new-title", 
+      { x: -20, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.6, delay: 1.2, ease: "power1.out", clearProps: "all" }
+    );
 
     gsap.fromTo(".latest-article-card", 
       { y: 30, opacity: 0 },
@@ -95,11 +91,11 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
                 {articleMap.col1[1] && <LatestArticleCard article={articleMap.col1[1]} isSmallCard={false} />}
               </div>
 
-              {latestArticles.length > 0 && (
+              {hasMore && (
                 <div className="text-center pt-8">
-                  <button className="latest-articles-title px-6 py-2 border border-gray-300 text-gray-600 font-semibold rounded-full hover:bg-gray-100 transition cursor-pointer">
+                  <Link href="/others" className="inline-block latest-articles-title px-6 py-2 border border-gray-300 text-gray-600 font-semibold rounded-full hover:bg-gray-100 transition cursor-pointer">
                     Load More
-                  </button>
+                  </Link>
                 </div>
               )}
             </div>

@@ -1,17 +1,17 @@
 import connectToDatabase from '@/lib/mongodb';
 import BlogPost from '@/lib/models/BlogPost';
-import HomeClient from '@/components/HomeClient';
+import OthersClient from '@/components/OthersClient';
 import type { Article } from '@/lib/constants';
 
-export default async function Page() {
+export default async function OthersPage() {
   await connectToDatabase();
 
   const posts = await BlogPost.find({}).sort({ createdAt: -1 }).lean();
 
-  // Map to Article, strictly picking properties to prevent Date object leaks
+  // Map to Article
   const serializedPosts: Article[] = posts.map((post: any) => ({
+    ...post,
     _id: post._id.toString(),
-    slug: post.slug || '',
     title: post.title || 'Untitled',
     imageUrl: post.imageUrl || 'https://placehold.co/800x600/374151/ffffff?text=No+Image',
     category: post.category || 'TECHNOLOGY',
@@ -22,9 +22,7 @@ export default async function Page() {
     author: post.author || 'Admin User',
   }));
 
-  const featuredArticles = serializedPosts.slice(0, 3);
-  const latestArticles = serializedPosts.slice(3, 9);
-  const hasMore = serializedPosts.length > 9;
+  const olderPosts = serializedPosts.slice(9);
 
-  return <HomeClient featuredArticles={featuredArticles} latestArticles={latestArticles} hasMore={hasMore} />;
+  return <OthersClient olderPosts={olderPosts} />;
 }
