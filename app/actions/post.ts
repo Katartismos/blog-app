@@ -5,21 +5,11 @@ import { redirect } from 'next/navigation';
 import connectToDatabase from '@/lib/mongodb';
 import BlogPost from '@/lib/models/BlogPost';
 
-const categoryColors: Record<string, string> = {
-  TECHNOLOGY: 'bg-indigo-600',
-  TRAVEL: 'bg-sky-500',
-  FOODS: 'bg-orange-600',
-  LIFESTYLE: 'bg-lime-600',
-  FINANCE: 'bg-emerald-600',
-  GAMING: 'bg-violet-600',
-};
-
 export async function createPost(formData: FormData) {
   const title = formData.get('title') as string;
   const content = formData.get('content') as string;
   const excerpt = formData.get('excerpt') as string || (content ? content.substring(0, 100) + '...' : '');
   const category = (formData.get('category') as string || 'TECHNOLOGY').toUpperCase();
-  const categoryColor = categoryColors[category] || 'bg-gray-600';
   const imageUrl = formData.get('imageUrl') as string || formData.get('coverImage') as string || '';
   
   if (!title || !content) {
@@ -38,7 +28,6 @@ export async function createPost(formData: FormData) {
       content,
       excerpt,
       category,
-      categoryColor,
       author: 'Admin User',
       date,
       readTime,

@@ -15,6 +15,15 @@ export interface ArticleProps {
   article: Article;
 }
 
+export const CATEGORY_COLORS: Record<string, string> = {
+  TECHNOLOGY: 'bg-indigo-600',
+  TRAVEL: 'bg-sky-500',
+  FOODS: 'bg-orange-600',
+  LIFESTYLE: 'bg-lime-600',
+  FINANCE: 'bg-emerald-600',
+  GAMING: 'bg-violet-600',
+};
+
 export const featuredArticles: Article[] = [
   { 
     title: 'Innovate & Create', 

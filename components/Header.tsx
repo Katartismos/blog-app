@@ -33,10 +33,10 @@ const Header = () => {
 
 
   const navItems = [
-    { name: 'HOME', href: '#' },
+    { name: 'HOME', href: '/' },
     { name: 'CATEGORIES', href: '#', icon: <ChevronDown size={14} /> },
-    { name: 'ABOUT', href: '#' },
-    { name: 'CONTACT', href: '#' },
+    { name: 'ABOUT', href: '/about' },
+    { name: 'CONTACT', href: '/contact' },
   ];
 
   return (

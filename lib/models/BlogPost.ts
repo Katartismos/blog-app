@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
+import { CATEGORY_COLORS } from '@/lib/constants';
 
 export interface IBlogPost extends Document {
   slug: string;
@@ -34,6 +35,10 @@ const blogPostSchema = new Schema(
 );
 
 blogPostSchema.pre<IBlogPost>('save', async function () {
+  if (this.isModified('category') || this.isNew) {
+    this.categoryColor = CATEGORY_COLORS[this.category?.toUpperCase() || ''] || 'bg-gray-600';
+  }
+
   if (!this.isModified('title')) {
     return;
   }
