@@ -92,13 +92,14 @@ export default function NewPostPage() {
 
               <div>
                 <label htmlFor="image" className="block text-sm font-semibold text-gray-700 mb-1">
-                  Upload Image
+                  Upload Image *
                 </label>
                 <input
                   type="file"
                   id="image"
                   name="image"
                   accept="image/png, image/jpeg, image/jpg, image/svg+xml"
+                  required
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 text-black file:cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100"
                 />
               </div>
@@ -106,12 +107,13 @@ export default function NewPostPage() {
 
             <div>
               <label htmlFor="excerpt" className="block text-sm font-semibold text-gray-700 mb-1">
-                Short Excerpt
+                Short Excerpt *
               </label>
               <textarea
                 id="excerpt"
                 name="excerpt"
                 rows={2}
+                required
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 resize-y text-black"
                 placeholder="Brief summary of your post..."
               />

@@ -15,6 +15,14 @@ export async function createPost(formData: FormData) {
     return { error: 'Title and content are required fields.' };
   }
 
+  if (!excerpt) {
+    return { error: 'Excerpt is a required field.' };
+  }
+
+  if (!imageFile || imageFile.size === 0) {
+    return { error: 'An image is required.' };
+  }
+
   let imageUrl = '';
   if (imageFile && imageFile.size > 0) {
     const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
