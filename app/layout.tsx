@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Archivo, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import WhiteScreenTransition from "@/components/WhiteScreenTransition";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
 });
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: "Blogify",
   description: "A modern blog platform",
   icons: {
-    icon: '/blog-icon.svg',
+    icon: '/rss.svg',
   },
 };
 
@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${archivo.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <WhiteScreenTransition />
         {children}

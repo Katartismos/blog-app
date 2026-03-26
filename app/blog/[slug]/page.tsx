@@ -18,7 +18,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 font-inter antialiased flex flex-col">
+    <div className="min-h-screen bg-gray-50 antialiased flex flex-col">
       <Header />
       
       <main className="grow max-w-[90%] mx-auto px-4 sm:px-2 lg:px-20 py-10 w-full mt-10">
@@ -45,14 +45,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">{post.title}</h1>
             
             <div className="flex items-center text-gray-500 text-sm mb-10 pb-6 border-b border-gray-100">
-              <span className="font-semibold text-indigo-600 mr-2">{post.author}</span>
+              <span className="font-semibold text-amber-700 mr-2">{post.author}</span>
               <span>&bull;</span>
               <span className="mx-2">{post.date}</span>
               <span>&bull;</span>
               <span className="mx-2">{post.readTime}</span>
             </div>
             
-            <div className="prose prose-lg prose-indigo max-w-none text-gray-700">
+            <div className="prose prose-lg prose-amber max-w-none text-gray-700">
               <div dangerouslySetInnerHTML={{ __html: post.content }} />
             </div>
           </div>

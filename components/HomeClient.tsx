@@ -53,7 +53,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
   }, { scope: mainRef });
 
   return (
-    <div className="min-h-screen bg-gray-50 font-inter antialiased">
+    <div className="min-h-screen bg-gray-50 antialiased">
       <Header />
 
       <main className="max-w-[90%] mx-auto px-4 sm:px-2 lg:px-20 py-10" ref={mainRef}>
@@ -68,12 +68,12 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
           
           <div className="mt-12">
             <h3 className="latest-articles-title text-xl font-bold text-gray-800 mb-2">EXPLORE OUR LATEST ARTICLES</h3>
-            <a href="#" className="latest-articles-title text-indigo-600 hover:text-indigo-800 text-sm font-medium">Join Our Community.</a>
+            <a href="#" className="latest-articles-title text-amber-700 hover:text-amber-900 text-sm font-medium">Join Our Community.</a>
           </div>
         </section>
 
         <section>
-          <h3 className="whats-new-title text-2xl font-bold text-gray-800 mb-8 pb-2 border-b-2 border-indigo-600 inline-block">
+          <h3 className="whats-new-title text-2xl font-bold text-gray-800 mb-8 pb-2 border-b-2 border-amber-700 inline-block">
             {selectedTag === 'All' ? "WHAT'S NEW" : selectedTag.toUpperCase()}
           </h3>
 

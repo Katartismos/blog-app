@@ -43,7 +43,7 @@ const OthersClient: React.FC<OthersClientProps> = ({ olderPosts, topics }) => {
   }, { scope: mainRef });
 
   return (
-    <div className="min-h-screen bg-gray-50 font-inter antialiased">
+    <div className="min-h-screen bg-gray-50 antialiased">
       <Header />
 
       <main className="grow max-w-[90%] mx-auto px-4 sm:px-2 lg:px-20 py-10" ref={mainRef}>
@@ -62,8 +62,8 @@ const OthersClient: React.FC<OthersClientProps> = ({ olderPosts, topics }) => {
                   onClick={() => setSelectedTag(tag)}
                   className={`text-xs font-medium px-3 py-1 rounded-full border transition cursor-pointer ${
                     selectedTag === tag 
-                      ? 'bg-indigo-600 text-white border-indigo-600' 
-                      : 'border-gray-300 text-gray-600 hover:bg-indigo-50'
+                      ? 'bg-amber-700 text-white border-amber-700' 
+                      : 'border-gray-300 text-gray-600 hover:bg-amber-50'
                   }`}
                 >
                   {tag}

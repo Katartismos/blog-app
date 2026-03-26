@@ -40,12 +40,12 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-10 font-inter" ref={headerRef}>
+    <header className="bg-white shadow-md sticky top-0 z-10" ref={headerRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <div className="flex items-center space-x-2" ref={logoRef}>
-            <Rss className="text-indigo-600" size={28} />
+            <Rss className="text-amber-700" size={28} />
             <span className="text-2xl font-bold text-gray-800">BLOGIFY</span>
           </div>
 
@@ -55,7 +55,7 @@ const Header = () => {
               <Link 
                 key={item.name}
                 href={item.href} 
-                className="nav-item text-sm font-semibold text-gray-600 hover:text-indigo-600 transition flex items-center"
+                className="nav-item text-sm font-semibold text-gray-600 hover:text-amber-700 transition flex items-center"
               >
                 {item.name} {item.icon}
               </Link>
@@ -65,7 +65,7 @@ const Header = () => {
               <input 
                 type="text" 
                 placeholder="Search" 
-                className="pl-10 pr-4 py-2 text-sm text-black border border-gray-200 rounded-full focus:ring-indigo-500 focus:border-indigo-500 w-40"
+                className="pl-10 pr-4 py-2 text-sm text-black border border-gray-200 rounded-full focus:ring-amber-500 focus:border-amber-500 w-40"
               />
               <Search size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             </div>
@@ -73,7 +73,7 @@ const Header = () => {
 
           {/* Actions & Mobile Menu Button */}
           <div className="flex items-center space-x-4">
-            <Link href="/new" className="nav-item hidden sm:flex items-center space-x-2 bg-indigo-600 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-md hover:bg-indigo-700 transition">
+            <Link href="/new" className="nav-item hidden sm:flex items-center space-x-2 bg-amber-700 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-md hover:bg-amber-800 transition">
               <PenSquare size={16} />
               <span>Create a Post</span>
             </Link>
@@ -108,7 +108,7 @@ const Header = () => {
               placeholder="Search articles..." 
               className="w-full p-2 border border-gray-300 rounded-md"
             />
-            <Link href="/new" className="mt-2 w-full flex justify-center items-center space-x-2 bg-indigo-600 text-white text-sm font-semibold px-4 py-2 rounded-full" onClick={() => setIsMenuOpen(false)}>
+            <Link href="/new" className="mt-2 w-full flex justify-center items-center space-x-2 bg-amber-700 text-white text-sm font-semibold px-4 py-2 rounded-full" onClick={() => setIsMenuOpen(false)}>
               <PenSquare size={16} />
               <span>Create a Post</span>
             </Link>

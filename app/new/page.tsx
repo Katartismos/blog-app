@@ -33,7 +33,7 @@ export default function NewPostPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-inter antialiased flex flex-col">
+    <div className="min-h-screen bg-gray-50 antialiased flex flex-col">
       <Header />
       
       <main className="grow max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full mt-10">
@@ -55,7 +55,7 @@ export default function NewPostPage() {
                 type="text"
                 id="title"
                 name="title"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 text-black"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-150 text-black"
                 placeholder="Enter a captivating title"
                 required
               />
@@ -69,7 +69,7 @@ export default function NewPostPage() {
                 <select
                   id="category"
                   name="category"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-white text-gray-500"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-150 bg-white text-gray-500"
                 >
                   <option value="TECHNOLOGY">Technology</option>
                   <option value="TRAVEL">Travel</option>
@@ -88,7 +88,7 @@ export default function NewPostPage() {
                   type="url"
                   id="imageUrl"
                   name="imageUrl"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 text-black"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-150 text-black"
                   placeholder="https://example.com/image.jpg"
                 />
               </div>
@@ -102,7 +102,7 @@ export default function NewPostPage() {
                 id="excerpt"
                 name="excerpt"
                 rows={2}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 resize-y text-black"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-150 resize-y text-black"
                 placeholder="Brief summary of your post..."
               />
             </div>
@@ -115,7 +115,7 @@ export default function NewPostPage() {
                 id="content"
                 name="content"
                 rows={12}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 resize-y text-black"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-150 resize-y text-black"
                 placeholder="Write your blog post content here... (HTML tags are supported)"
                 required
               />
@@ -127,8 +127,8 @@ export default function NewPostPage() {
                 disabled={loading}
                 className={`flex items-center justify-center py-3 px-8 rounded-full text-white font-semibold shadow-md transition duration-200 cursor-pointer ${
                   loading 
-                    ? 'bg-indigo-400 cursor-not-allowed' 
-                    : 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg'
+                    ? 'bg-amber-500 cursor-not-allowed' 
+                    : 'bg-amber-700 hover:bg-amber-800 hover:shadow-lg'
                 }`}
               >
                 {loading ? (

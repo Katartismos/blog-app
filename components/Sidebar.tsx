@@ -46,7 +46,7 @@ const Sidebar: React.FC<SidebarProps> = ({ topics, selectedTag = 'All', onSelect
         <h4 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">EXPLORE TOPICS</h4>
         <ul className="space-y-3">
           {(topics || FALLBACK_TOPICS).map((topic, index) => (
-            <li key={index} className="flex justify-between items-center text-sm text-gray-600 hover:text-indigo-600 transition cursor-pointer">
+            <li key={index} className="flex justify-between items-center text-sm text-gray-600 hover:text-amber-600 transition cursor-pointer">
               <span>{topic.name}</span>
               <span className="text-xs font-medium text-gray-400">({topic.count})</span>
             </li>
@@ -64,8 +64,8 @@ const Sidebar: React.FC<SidebarProps> = ({ topics, selectedTag = 'All', onSelect
               onClick={() => onSelectTag?.(tag)}
               className={`text-xs font-medium px-3 py-1 rounded-full border transition cursor-pointer ${
                 selectedTag === tag 
-                  ? 'bg-indigo-600 text-white border-indigo-600' 
-                  : 'border-gray-300 text-gray-600 hover:bg-indigo-50'
+                  ? 'bg-amber-600 text-white border-amber-600' 
+                  : 'border-gray-300 text-gray-600 hover:bg-amber-50'
               }`}
             >
               {tag}
@@ -75,15 +75,15 @@ const Sidebar: React.FC<SidebarProps> = ({ topics, selectedTag = 'All', onSelect
       </div>
 
       {/* Newsletter Signup */}
-      <div className="bg-indigo-50 p-6 rounded-xl shadow-md">
+      <div className="bg-amber-50 p-6 rounded-xl shadow-md">
         <h4 className="text-lg font-bold text-gray-800 mb-2">NEVER MISS A STORY!</h4>
         <p className="text-sm text-gray-600 mb-4">Subscribe to our weekly newsletter.</p>
         <input 
           type="email" 
           placeholder="Email Address" 
-          className="w-full p-3 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 text-sm text-black"
+          className="w-full p-3 rounded-lg border border-gray-300 focus:ring-amber-500 focus:border-amber-500 text-sm text-black"
         />
-        <button className="mt-3 w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md cursor-pointer hover:bg-indigo-800 active:bg-indigo-700 transition">
+        <button className="mt-3 w-full py-3 bg-amber-600 text-white font-semibold rounded-lg shadow-md cursor-pointer hover:bg-amber-800 active:bg-amber-700 transition">
             SUBSCRIBE
         </button>
       </div>
