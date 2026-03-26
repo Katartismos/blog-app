@@ -21,13 +21,43 @@ export async function POST(req: Request) {
     const category = (formData.get('category') as string || 'TECHNOLOGY').toUpperCase();
     const categoryColor = categoryColors[category] || 'bg-gray-600';
     const author = formData.get('author') as string;
-    const imageUrl = formData.get('imageUrl') as string || formData.get('coverImageUrl') as string || '';
+    const imageFile = formData.get('image') as File | null;
 
     if (!title || !content || !author) {
       return NextResponse.json(
         { error: 'title, content, and author are required fields in the form data' },
         { status: 400 }
       );
+    }
+
+    let imageUrl = '';
+    if (imageFile && imageFile.size > 0) {
+      const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+      const uploadPreset = process.env.CLOUDINARY_PRESET_NAME;
+      if (!cloudName || !uploadPreset) {
+        return NextResponse.json({ error: 'Cloudinary configuration is missing' }, { status: 500 });
+      }
+      
+      const uploadData = new FormData();
+      uploadData.append('file', imageFile);
+      uploadData.append('upload_preset', uploadPreset);
+      
+      try {
+        const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+          method: 'POST',
+          body: uploadData,
+        });
+
+        if (!uploadRes.ok) {
+          return NextResponse.json({ error: 'Failed to upload image to Cloudinary' }, { status: 500 });
+        }
+        
+        const uploadJson = await uploadRes.json();
+        imageUrl = uploadJson.secure_url;
+      } catch (error) {
+        console.error('Cloudinary upload error:', error);
+        return NextResponse.json({ error: 'Error uploading image to Cloudinary' }, { status: 500 });
+      }
     }
 
     await connectToDatabase();

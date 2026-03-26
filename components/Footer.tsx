@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 // Simulate icon imports
-import { Rss, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Newspaper, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
 const Footer = () => {
   const footerRef = useRef(null);
@@ -27,7 +27,7 @@ const Footer = () => {
           {/* Logo & Slogan */}
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center space-x-2 mb-2">
-              <Rss className="text-amber-500" size={24} />
+              <Newspaper className="text-amber-600" size={24} />
               <span className="text-xl font-bold">BLOGIFY</span>
             </div>
             <p className="text-sm text-gray-400">Discover your daily source for templates.</p>
