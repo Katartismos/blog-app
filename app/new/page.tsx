@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { createPost } from '@/app/actions/post';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export default function NewPostPage() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -24,10 +26,18 @@ export default function NewPostPage() {
       return;
     }
 
-    const response = await createPost(formData);
-    
-    if (response?.error) {
-      setError(response.error);
+    try {
+      const response = await createPost(formData);
+
+      if (response?.error) {
+        setError(response.error);
+        setLoading(false);
+      } else if (response?.success) {
+        router.push('/');
+      }
+    } catch (err: any) {
+      console.error("Action error:", err);
+      setError(err.message || 'An unexpected error occurred while communicating with the server. The image might be too large (Max: 10MB)');
       setLoading(false);
     }
   };
@@ -81,15 +91,15 @@ export default function NewPostPage() {
               </div>
 
               <div>
-                <label htmlFor="imageUrl" className="block text-sm font-semibold text-gray-700 mb-1">
-                  Image URL
+                <label htmlFor="image" className="block text-sm font-semibold text-gray-700 mb-1">
+                  Upload Image
                 </label>
                 <input
-                  type="url"
-                  id="imageUrl"
-                  name="imageUrl"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 text-black"
-                  placeholder="https://example.com/image.jpg"
+                  type="file"
+                  id="image"
+                  name="image"
+                  accept="image/png, image/jpeg, image/jpg, image/svg+xml"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 text-black file:cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100"
                 />
               </div>
             </div>

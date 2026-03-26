@@ -1,7 +1,6 @@
 'use server'
 
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import connectToDatabase from '@/lib/mongodb';
 import BlogPost from '@/lib/models/BlogPost';
 
@@ -10,10 +9,40 @@ export async function createPost(formData: FormData) {
   const content = formData.get('content') as string;
   const excerpt = formData.get('excerpt') as string || (content ? content.substring(0, 100) + '...' : '');
   const category = (formData.get('category') as string || 'TECHNOLOGY').toUpperCase();
-  const imageUrl = formData.get('imageUrl') as string || formData.get('coverImage') as string || '';
+  const imageFile = formData.get('image') as File | null;
   
   if (!title || !content) {
     return { error: 'Title and content are required fields.' };
+  }
+
+  let imageUrl = '';
+  if (imageFile && imageFile.size > 0) {
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = process.env.CLOUDINARY_PRESET_NAME;
+    if (!cloudName || !uploadPreset) {
+      return { error: 'Cloudinary configuration is missing.' };
+    }
+    
+    const uploadData = new FormData();
+    uploadData.append('file', imageFile);
+    uploadData.append('upload_preset', uploadPreset);
+    
+    try {
+      const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: 'POST',
+        body: uploadData,
+      });
+
+      if (!uploadRes.ok) {
+        return { error: 'Failed to upload image to Cloudinary.' };
+      }
+      
+      const uploadJson = await uploadRes.json();
+      imageUrl = uploadJson.secure_url;
+    } catch (error) {
+      console.error('Cloudinary upload error:', error);
+      return { error: 'Error uploading image to Cloudinary.' };
+    }
   }
 
   try {
@@ -40,5 +69,5 @@ export async function createPost(formData: FormData) {
   }
 
   revalidatePath('/');
-  redirect('/');
+  return { success: true };
 }
