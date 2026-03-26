@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: "Blogify",
   description: "A modern blog platform",
   icons: {
-    icon: '/rss.svg',
+    icon: '/newspaper.svg',
   },
 };
 

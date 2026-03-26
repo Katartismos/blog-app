@@ -55,7 +55,7 @@ export default function NewPostPage() {
                 type="text"
                 id="title"
                 name="title"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-150 text-black"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 text-black"
                 placeholder="Enter a captivating title"
                 required
               />
@@ -69,7 +69,7 @@ export default function NewPostPage() {
                 <select
                   id="category"
                   name="category"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-150 bg-white text-gray-500"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 bg-white text-gray-500"
                 >
                   <option value="TECHNOLOGY">Technology</option>
                   <option value="TRAVEL">Travel</option>
@@ -88,7 +88,7 @@ export default function NewPostPage() {
                   type="url"
                   id="imageUrl"
                   name="imageUrl"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-150 text-black"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 text-black"
                   placeholder="https://example.com/image.jpg"
                 />
               </div>
@@ -102,7 +102,7 @@ export default function NewPostPage() {
                 id="excerpt"
                 name="excerpt"
                 rows={2}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-150 resize-y text-black"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 resize-y text-black"
                 placeholder="Brief summary of your post..."
               />
             </div>
@@ -115,7 +115,7 @@ export default function NewPostPage() {
                 id="content"
                 name="content"
                 rows={12}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-150 resize-y text-black"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 resize-y text-black"
                 placeholder="Write your blog post content here... (HTML tags are supported)"
                 required
               />

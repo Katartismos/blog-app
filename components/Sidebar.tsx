@@ -56,7 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({ topics, selectedTag = 'All', onSelect
 
       {/* Tag Cloud */}
       <div className="bg-white p-6 rounded-xl shadow-md">
-        <h4 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Tag Cloud</h4>
+        <h4 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">CATEGORIES</h4>
         <div className="flex flex-wrap gap-2">
           {['All', ...(topics || FALLBACK_TOPICS).map(t => t.name)].map((tag, index) => (
             <span 
@@ -64,8 +64,8 @@ const Sidebar: React.FC<SidebarProps> = ({ topics, selectedTag = 'All', onSelect
               onClick={() => onSelectTag?.(tag)}
               className={`text-xs font-medium px-3 py-1 rounded-full border transition cursor-pointer ${
                 selectedTag === tag 
-                  ? 'bg-amber-600 text-white border-amber-600' 
-                  : 'border-gray-300 text-gray-600 hover:bg-amber-50'
+                  ? 'bg-amber-700 text-white border-amber-600' 
+                  : 'border-gray-300 text-gray-600 hover:bg-amber-100'
               }`}
             >
               {tag}
@@ -81,7 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({ topics, selectedTag = 'All', onSelect
         <input 
           type="email" 
           placeholder="Email Address" 
-          className="w-full p-3 rounded-lg border border-gray-300 focus:ring-amber-500 focus:border-amber-500 text-sm text-black"
+          className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-amber-500 focus:border-amber-500 text-sm text-black"
         />
         <button className="mt-3 w-full py-3 bg-amber-600 text-white font-semibold rounded-lg shadow-md cursor-pointer hover:bg-amber-800 active:bg-amber-700 transition">
             SUBSCRIBE

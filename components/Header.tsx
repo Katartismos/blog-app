@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { Search, PenSquare, ChevronDown, Rss, Menu, X } from 'lucide-react'; 
+import { Search, PenSquare, ChevronDown, Newspaper, Menu, X } from 'lucide-react'; 
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,7 +34,6 @@ const Header = () => {
 
   const navItems = [
     { name: 'HOME', href: '/' },
-    { name: 'CATEGORIES', href: '#', icon: <ChevronDown size={14} /> },
     { name: 'ABOUT', href: '/about' },
     { name: 'CONTACT', href: '/contact' },
   ];
@@ -44,10 +43,10 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <div className="flex items-center space-x-2" ref={logoRef}>
-            <Rss className="text-amber-700" size={28} />
+          <Link href="/" className="flex items-center space-x-2" ref={logoRef}>
+            <Newspaper className="text-amber-700" size={28} />
             <span className="text-2xl font-bold text-gray-800">BLOGIFY</span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-6">
@@ -57,7 +56,7 @@ const Header = () => {
                 href={item.href} 
                 className="nav-item text-sm font-semibold text-gray-600 hover:text-amber-700 transition flex items-center"
               >
-                {item.name} {item.icon}
+                {item.name}
               </Link>
             ))}
             {/* Search Bar */}
@@ -65,7 +64,7 @@ const Header = () => {
               <input 
                 type="text" 
                 placeholder="Search" 
-                className="pl-10 pr-4 py-2 text-sm text-black border border-gray-200 rounded-full focus:ring-amber-500 focus:border-amber-500 w-40"
+                className="pl-10 pr-4 py-2 text-sm text-black border border-gray-200 rounded-full focus:outline-none focus:ring-amber-700 focus:border-amber-700 w-40"
               />
               <Search size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             </div>
