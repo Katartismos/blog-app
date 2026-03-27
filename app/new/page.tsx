@@ -5,26 +5,39 @@ import { useRouter } from 'next/navigation';
 import { createPost } from '@/app/actions/post';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import TiptapEditor from '@/components/TiptapEditor';
 
 export default function NewPostPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [contentHtml, setContentHtml] = useState('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    const formData = new FormData(e.currentTarget);
-    const title = formData.get('title') as string;
-    const content = formData.get('content') as string;
+    // Strip HTML tags to get plain text for length validation
+    const plainText = contentHtml.replace(/<[^>]+>/g, '').trim();
 
-    if (!title.trim() || !content.trim()) {
-      setError('Title and content are required fields.');
+    if (plainText.length < 30) {
+      setError('Content must be at least 30 characters long.');
       setLoading(false);
       return;
     }
+
+    const formData = new FormData(e.currentTarget);
+    const title = formData.get('title') as string;
+
+    if (!title.trim()) {
+      setError('Title is a required field.');
+      setLoading(false);
+      return;
+    }
+
+    // Inject the Tiptap HTML output as the 'content' field
+    formData.set('content', contentHtml);
 
     try {
       const response = await createPost(formData);
@@ -120,17 +133,10 @@ export default function NewPostPage() {
             </div>
 
             <div>
-              <label htmlFor="content" className="block text-sm font-semibold text-gray-700 mb-1">
-                Content *
+              <label className="block text-sm font-semibold text-gray-700 mb-1">
+                Content * <span className="text-gray-400 font-normal text-xs">(min. 30 characters)</span>
               </label>
-              <textarea
-                id="content"
-                name="content"
-                rows={12}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 resize-y text-black"
-                placeholder="Write your blog post content here... (HTML tags are supported)"
-                required
-              />
+              <TiptapEditor onChange={setContentHtml} />
             </div>
 
             <div className="pt-4 flex justify-end">
