@@ -52,7 +52,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               <span className="mx-2">{post.readTime}</span>
             </div>
             
-            <div className="prose prose-lg prose-amber max-w-none text-gray-700">
+            <div className="prose-content max-w-none">
               <div dangerouslySetInnerHTML={{ __html: post.content }} />
             </div>
           </div>
