@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { createPost } from '@/app/actions/post';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -9,9 +10,24 @@ import TiptapEditor from '@/components/TiptapEditor';
 
 export default function NewPostPage() {
   const router = useRouter();
+  const { status } = useSession();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [contentHtml, setContentHtml] = useState('');
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/');
+    }
+  }, [status, router]);
+
+  if (status === 'loading' || status === 'unauthenticated') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-700"></div>
+      </div>
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -3,6 +3,7 @@ import { Archivo, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import WhiteScreenTransition from "@/components/WhiteScreenTransition";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
+import SessionWrapper from "@/components/SessionWrapper";
 
 const archivo = Archivo({
   variable: "--font-archivo",
@@ -15,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Blogify",
+  title: "K-Blog",
   description: "A modern blog platform",
   icons: {
     icon: '/newspaper.svg',
@@ -32,9 +33,11 @@ export default function RootLayout({
       <body
         className={`${archivo.variable} ${geistMono.variable} font-sans antialiased`}
       >
-        <WhiteScreenTransition />
-        {children}
-        <ScrollToTopButton />
+        <SessionWrapper>
+          <WhiteScreenTransition />
+          {children}
+          <ScrollToTopButton />
+        </SessionWrapper>
       </body>
     </html>
   );

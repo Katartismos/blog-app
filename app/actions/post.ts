@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import connectToDatabase from '@/lib/mongodb';
 import BlogPost from '@/lib/models/BlogPost';
 import sanitizeHtml from 'sanitize-html';
+import { auth } from '@/auth';
 
 const sanitizeOptions: sanitizeHtml.IOptions = {
   allowedTags: [
@@ -20,6 +21,11 @@ const sanitizeOptions: sanitizeHtml.IOptions = {
 };
 
 export async function createPost(formData: FormData) {
+  const session = await auth();
+  if (!session?.user) {
+    return { error: 'You must be logged in to create a post.' };
+  }
+
   const title = formData.get('title') as string;
   const rawContent = formData.get('content') as string;
   const excerpt = formData.get('excerpt') as string;
@@ -90,7 +96,8 @@ export async function createPost(formData: FormData) {
       content,
       excerpt,
       category,
-      author: 'Admin User',
+      author: session.user.name || 'Anonymous User',
+      authorImage: session.user.image || '',
       date,
       readTime,
       imageUrl,

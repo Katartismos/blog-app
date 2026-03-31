@@ -8,6 +8,7 @@ export interface IBlogPost extends Document {
   category: string;
   categoryColor: string;
   author: string;
+  authorImage?: string;
   date: string;
   readTime: string;
   imageUrl: string;
@@ -24,6 +25,7 @@ const blogPostSchema = new Schema(
     category: { type: String, default: 'TECHNOLOGY' },
     categoryColor: { type: String, default: 'bg-indigo-600' },
     author: { type: String, required: true },
+    authorImage: { type: String, default: '' },
     date: { type: String, default: '' },
     readTime: { type: String, default: '5-min read' },
     imageUrl: { type: String, default: '' },

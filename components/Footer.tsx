@@ -28,7 +28,7 @@ const Footer = () => {
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center space-x-2 mb-2">
               <Newspaper className="text-amber-600" size={24} />
-              <span className="text-xl font-bold">BLOGIFY</span>
+              <span className="text-xl font-bold">K-BLOG</span>
             </div>
             <p className="text-sm text-gray-400">Discover your daily source for templates.</p>
           </div>
@@ -52,7 +52,7 @@ const Footer = () => {
 
         {/* Bottom Row */}
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
-          <p>&copy; 2026 BLOGIFY. All rights reserved.</p>
+          <p>&copy; 2026 K-BLOG. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <Facebook size={20} className="social-icon hover:text-amber-500 transition cursor-pointer" />
             <Twitter size={20} className="social-icon hover:text-amber-500 transition cursor-pointer" />

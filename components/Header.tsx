@@ -2,12 +2,16 @@
 
 import { useState, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { Search, PenSquare, ChevronDown, Newspaper, Menu, X } from 'lucide-react'; 
+import { Search, PenSquare, ChevronDown, Newspaper, Menu, X, User2 } from 'lucide-react'; 
+import { useSession, signIn, signOut } from 'next-auth/react'; 
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const { data: session, status } = useSession();
   const headerRef = useRef(null);
   const logoRef = useRef(null);
 
@@ -45,7 +49,7 @@ const Header = () => {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2" ref={logoRef}>
             <Newspaper className="text-amber-700" size={28} />
-            <span className="text-2xl font-bold text-gray-800">BLOGIFY</span>
+            <span className="text-2xl font-bold text-gray-800">K-BLOG</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -72,11 +76,57 @@ const Header = () => {
 
           {/* Actions & Mobile Menu Button */}
           <div className="flex items-center space-x-4">
-            <Link href="/new" className="nav-item hidden sm:flex items-center space-x-2 bg-amber-700 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-md hover:bg-amber-800 transition">
-              <PenSquare size={16} />
-              <span>Create a Post</span>
-            </Link>
-            <div className="nav-item h-8 w-8 bg-gray-200 rounded-full cursor-pointer hidden lg:block"></div> {/* User Avatar */}
+            {status === "authenticated" && (
+              <Link href="/new" className="nav-item hidden sm:flex items-center space-x-2 bg-amber-700 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-md hover:bg-amber-800 transition">
+                <PenSquare size={16} />
+                <span>Create a Post</span>
+              </Link>
+            )}
+
+            {/* User Avatar & Dropdown */}
+            <div className="relative nav-item">
+              <div 
+                className="h-10 w-10 bg-gray-100 rounded-full cursor-pointer flex items-center justify-center overflow-hidden border border-gray-200"
+                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              >
+                {status === "authenticated" && session?.user?.image ? (
+                  <Image src={session.user.image} alt="User Avatar" width={40} height={40} className="object-cover" />
+                ) : (
+                  <User2 size={20} className="text-gray-400" />
+                )}
+              </div>
+
+              {/* Dropdown Menu */}
+              {isUserMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 border border-gray-100">
+                  {status === "authenticated" ? (
+                    <>
+                      <div className="px-4 py-2 text-sm text-gray-700 border-b border-gray-100">
+                        <p className="font-semibold truncate">{session.user?.name || "User"}</p>
+                      </div>
+                      <button 
+                        onClick={() => { signOut(); setIsUserMenuOpen(false); }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition"
+                      >
+                        Sign Out
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <div className="px-4 py-2 text-sm text-gray-700 border-b border-gray-100">
+                        <p className="font-semibold">Guest</p>
+                      </div>
+                      <button 
+                        onClick={() => { signIn('google'); setIsUserMenuOpen(false); }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition"
+                      >
+                        Sign in with Google
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
             
             <button 
               className="lg:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100"
@@ -107,10 +157,12 @@ const Header = () => {
               placeholder="Search articles..." 
               className="w-full p-2 border border-gray-300 rounded-md"
             />
-            <Link href="/new" className="mt-2 w-full flex justify-center items-center space-x-2 bg-amber-700 text-white text-sm font-semibold px-4 py-2 rounded-full" onClick={() => setIsMenuOpen(false)}>
-              <PenSquare size={16} />
-              <span>Create a Post</span>
-            </Link>
+            {status === "authenticated" && (
+              <Link href="/new" className="mt-2 w-full flex justify-center items-center space-x-2 bg-amber-700 text-white text-sm font-semibold px-4 py-2 rounded-full" onClick={() => setIsMenuOpen(false)}>
+                <PenSquare size={16} />
+                <span>Create a Post</span>
+              </Link>
+            )}
           </div>
         </div>
       )}
