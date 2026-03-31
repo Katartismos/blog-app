@@ -4,7 +4,7 @@ import { auth } from "./auth";
 // Note: In standard Next.js, this needs to be exported from 'middleware.ts' 
 // to take effect automatically on Edge runtime unless you have a custom setup.
 
-export default auth((req) => {
+export default auth((_req) => {
   // Session is accessible globally here via req.auth
   // You can add additional global logic here while allowing public access.
 });

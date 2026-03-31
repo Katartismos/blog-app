@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { Search, PenSquare, ChevronDown, Newspaper, Menu, X, User2 } from 'lucide-react'; 
+import { Search, PenSquare, Newspaper, Menu, X, User2 } from 'lucide-react'; 
 import { useSession, signIn, signOut } from 'next-auth/react'; 
 
 const Header = () => {

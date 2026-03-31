@@ -103,9 +103,10 @@ export async function createPost(formData: FormData) {
       imageUrl,
     });
 
-  } catch (error: any) {
+  } catch (error: Error | unknown) {
     console.error('Error creating post:', error);
-    return { error: error.message || 'Failed to create the blog post. Please try again later.' };
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred.';
+    return { error: errorMessage || 'Failed to create the blog post. Please try again later.' };
   }
 
   revalidatePath('/');

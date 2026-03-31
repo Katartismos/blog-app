@@ -9,8 +9,8 @@ export default async function Page() {
   const posts = await BlogPost.find({}).sort({ createdAt: -1 }).lean();
 
   // Map to Article, strictly picking properties to prevent Date object leaks
-  const serializedPosts: Article[] = posts.map((post: any) => ({
-    _id: post._id.toString(),
+  const serializedPosts: Article[] = posts.map((post: import('@/lib/models/BlogPost').IBlogPost) => ({
+    _id: String(post._id),
     slug: post.slug || '',
     title: post.title || 'Untitled',
     imageUrl: post.imageUrl || 'https://placehold.co/800x600/374151/ffffff?text=No+Image',
@@ -30,7 +30,7 @@ export default async function Page() {
   const categoriesList = ['TECHNOLOGY', 'TRAVEL', 'FOODS', 'LIFESTYLE', 'FINANCE', 'GAMING'];
   const topicsInfo = categoriesList.map(cat => ({
     name: cat.charAt(0) + cat.slice(1).toLowerCase(), // e.g. Technology
-    count: posts.filter((p: any) => (p.category || 'TECHNOLOGY').toUpperCase() === cat).length
+    count: posts.filter((p: import('@/lib/models/BlogPost').IBlogPost) => (p.category || 'TECHNOLOGY').toUpperCase() === cat).length
   }));
 
   return <HomeClient featuredArticles={featuredArticles} latestArticles={latestArticles} hasMore={hasMore} topics={topicsInfo} />;

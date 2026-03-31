@@ -83,10 +83,11 @@ export async function POST(req: Request) {
       { message: 'Blog post created successfully from form data', post },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('API Error creating post:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to create blog post';
     return NextResponse.json(
-      { error: error.message || 'Failed to create blog post' },
+      { error: errorMessage },
       { status: 500 }
     );
   }

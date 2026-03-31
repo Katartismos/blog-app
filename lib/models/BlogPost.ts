@@ -61,7 +61,7 @@ blogPostSchema.pre<IBlogPost>('save', async function () {
   let candidateSlug = baseSlug;
   let counter = 1;
 
-  const BlogPostModel = (this.constructor as any);
+  const BlogPostModel = (this.constructor as mongoose.Model<IBlogPost>);
   
   while (true) {
     const existingPost = await BlogPostModel.findOne({ slug: candidateSlug });

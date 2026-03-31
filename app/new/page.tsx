@@ -64,9 +64,10 @@ export default function NewPostPage() {
       } else if (response?.success) {
         router.push('/');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Action error:", err);
-      setError(err.message || 'An unexpected error occurred while communicating with the server. The image might be too large (Max: 10MB)');
+      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred while communicating with the server. The image might be too large (Max: 10MB)';
+      setError(errorMessage);
       setLoading(false);
     }
   };

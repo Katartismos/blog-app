@@ -1,0 +1,10 @@
+
+> nextjs16-app-template-ts@0.1.0 lint
+> eslint
+
+
+C:\Users\KING-KARTA\Desktop\CODE\Projects\Web Development\blog-app\proxy.ts
+  7:22  warning  '_req' is defined but never used  @typescript-eslint/no-unused-vars
+
+Γ£û 1 problem (0 errors, 1 warning)
+

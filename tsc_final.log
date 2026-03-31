@@ -1,0 +1,11 @@
+lib/mongodb.ts(23,7): error TS18048: 'cached' is possibly 'undefined'.
+lib/mongodb.ts(24,12): error TS18048: 'cached' is possibly 'undefined'.
+lib/mongodb.ts(27,8): error TS18048: 'cached' is possibly 'undefined'.
+lib/mongodb.ts(32,5): error TS18048: 'cached' is possibly 'undefined'.
+lib/mongodb.ts(32,5): error TS2322: Type 'Promise<Connection | typeof import("mongoose")>' is not assignable to type 'Promise<Connection>'.
+  Type 'Connection | typeof import("mongoose")' is not assignable to type 'Connection'.
+    Type 'typeof import("mongoose")' is missing the following properties from type 'Connection': aggregate, asPromise, base, bulkWrite, and 42 more.
+lib/mongodb.ts(38,5): error TS18048: 'cached' is possibly 'undefined'.
+lib/mongodb.ts(38,25): error TS18048: 'cached' is possibly 'undefined'.
+lib/mongodb.ts(40,5): error TS18048: 'cached' is possibly 'undefined'.
+lib/mongodb.ts(44,10): error TS18048: 'cached' is possibly 'undefined'.
