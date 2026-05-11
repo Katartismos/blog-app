@@ -1,3 +1,15 @@
+/**
+ * Tiptap Rich Text Editor Component
+ * 
+ * Provides a WYSIWYG editing experience for blog posts.
+ * Includes:
+ * - StarterKit (bold, italic, headings, lists, etc.)
+ * - Underline extension
+ * - Placeholder extension
+ * - Custom toolbar for formatting actions
+ * - Real-time HTML updates via onChange callback
+ */
+
 'use client'
 
 import { useEditor, EditorContent } from '@tiptap/react'
@@ -6,9 +18,14 @@ import Underline from '@tiptap/extension-underline'
 import Placeholder from '@tiptap/extension-placeholder'
 
 interface TiptapEditorProps {
-  onChange: (html: string) => void;
+  onChange: (html: string) => void; // Function to bubble up the HTML content to the parent form
 }
 
+/**
+ * ToolbarButton Component
+ * 
+ * A reusable sub-component for the editor's toolbar buttons.
+ */
 type ToolbarButtonProps = {
   onClick: () => void;
   isActive?: boolean;
@@ -33,15 +50,19 @@ function ToolbarButton({ onClick, isActive, title, children }: ToolbarButtonProp
   );
 }
 
+/**
+ * ToolbarDivider Component
+ */
 function ToolbarDivider() {
   return <span className="w-px h-5 bg-gray-300 mx-1 self-center" />;
 }
 
 export default function TiptapEditor({ onChange }: TiptapEditorProps) {
+  // Initialize the Tiptap editor with extensions and configuration
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
-        heading: { levels: [1, 2, 3] },
+        heading: { levels: [1, 2, 3] }, // Restrict headings to levels 1-3
       }),
       Underline,
       Placeholder.configure({
@@ -50,23 +71,28 @@ export default function TiptapEditor({ onChange }: TiptapEditorProps) {
     ],
     editorProps: {
       attributes: {
+        // Tailwind classes for the editable area
         class:
           'min-h-[300px] px-4 py-3 text-gray-800 focus:outline-none leading-relaxed',
       },
     },
+    // Trigger the callback whenever the content changes
     onUpdate({ editor }) {
       onChange(editor.getHTML());
     },
     immediatelyRender: false,
   });
 
+  // Don't render if the editor instance isn't ready
   if (!editor) return null;
 
   return (
     <div className="rounded-lg border border-gray-300 focus-within:ring-1 focus-within:ring-amber-700 focus-within:border-amber-700 transition duration-150 overflow-hidden bg-white">
-      {/* Toolbar */}
+      
+      {/* Editor Toolbar: Contains all formatting controls */}
       <div className="flex flex-wrap items-center gap-0.5 px-2 py-2 border-b border-gray-200 bg-gray-50">
-        {/* Text style */}
+        
+        {/* Text Style Controls */}
         <ToolbarButton
           title="Bold"
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -91,7 +117,7 @@ export default function TiptapEditor({ onChange }: TiptapEditorProps) {
 
         <ToolbarDivider />
 
-        {/* Headings */}
+        {/* Heading Level Controls */}
         <ToolbarButton
           title="Heading 1"
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -116,7 +142,7 @@ export default function TiptapEditor({ onChange }: TiptapEditorProps) {
 
         <ToolbarDivider />
 
-        {/* Lists */}
+        {/* List Type Controls */}
         <ToolbarButton
           title="Bullet List"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -134,7 +160,7 @@ export default function TiptapEditor({ onChange }: TiptapEditorProps) {
 
         <ToolbarDivider />
 
-        {/* Block elements */}
+        {/* Semantic/Structural Block Controls */}
         <ToolbarButton
           title="Blockquote"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
@@ -151,7 +177,7 @@ export default function TiptapEditor({ onChange }: TiptapEditorProps) {
 
         <ToolbarDivider />
 
-        {/* Undo / Redo */}
+        {/* History Management */}
         <ToolbarButton
           title="Undo"
           onClick={() => editor.chain().focus().undo().run()}
@@ -166,7 +192,7 @@ export default function TiptapEditor({ onChange }: TiptapEditorProps) {
         </ToolbarButton>
       </div>
 
-      {/* Editor area */}
+      {/* Actual Editable Content Area */}
       <EditorContent editor={editor} />
     </div>
   );

@@ -1,3 +1,10 @@
+/**
+ * New Post Page (Client Component)
+ * 
+ * Provides a form for authenticated users to create and publish new blog posts.
+ * Includes a rich-text editor (Tiptap), image upload, and category selection.
+ */
+
 'use client'
 
 import { useState, useEffect } from 'react';
@@ -11,16 +18,24 @@ import TiptapEditor from '@/components/TiptapEditor';
 export default function NewPostPage() {
   const router = useRouter();
   const { status } = useSession();
+  
+  // Local state for UI feedback and form data
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [contentHtml, setContentHtml] = useState('');
+  const [contentHtml, setContentHtml] = useState(''); // Stores HTML from Tiptap editor
 
+  /**
+   * Authentication Guard
+   * 
+   * Redirects unauthenticated users to the home page.
+   */
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/');
     }
   }, [status, router]);
 
+  // Show loading spinner while session is being verified
   if (status === 'loading' || status === 'unauthenticated') {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -29,6 +44,12 @@ export default function NewPostPage() {
     );
   }
 
+  /**
+   * handleSubmit
+   * 
+   * Validates form data and calls the createPost server action.
+   * Handles UI loading states and error reporting.
+   */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -37,6 +58,7 @@ export default function NewPostPage() {
     // Strip HTML tags to get plain text for length validation
     const plainText = contentHtml.replace(/<[^>]+>/g, '').trim();
 
+    // Basic validation for content length
     if (plainText.length < 30) {
       setError('Content must be at least 30 characters long.');
       setLoading(false);
@@ -46,22 +68,25 @@ export default function NewPostPage() {
     const formData = new FormData(e.currentTarget);
     const title = formData.get('title') as string;
 
+    // Basic validation for title
     if (!title.trim()) {
       setError('Title is a required field.');
       setLoading(false);
       return;
     }
 
-    // Inject the Tiptap HTML output as the 'content' field
+    // Inject the Tiptap HTML output as the 'content' field in FormData
     formData.set('content', contentHtml);
 
     try {
+      // Execute server action to save the post
       const response = await createPost(formData);
 
       if (response?.error) {
         setError(response.error);
         setLoading(false);
       } else if (response?.success) {
+        // Redirect to home on success
         router.push('/');
       }
     } catch (err: unknown) {
@@ -80,6 +105,7 @@ export default function NewPostPage() {
         <div className="bg-white rounded-2xl shadow-lg p-8 sm:p-10">
           <h1 className="text-3xl font-extrabold text-gray-900 mb-8 pb-4 border-b border-gray-100">Create a New Post</h1>
           
+          {/* Error Message Display */}
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm font-medium">
               {error}
@@ -87,6 +113,7 @@ export default function NewPostPage() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Title Input */}
             <div>
               <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-1">
                 Post Title *
@@ -102,6 +129,7 @@ export default function NewPostPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Category Selection */}
               <div>
                 <label htmlFor="category" className="block text-sm font-semibold text-gray-700 mb-1">
                   Category
@@ -120,6 +148,7 @@ export default function NewPostPage() {
                 </select>
               </div>
 
+              {/* Image Upload Input */}
               <div>
                 <label htmlFor="image" className="block text-sm font-semibold text-gray-700 mb-1">
                   Upload Image *
@@ -135,6 +164,7 @@ export default function NewPostPage() {
               </div>
             </div>
 
+            {/* Short Excerpt Input */}
             <div>
               <label htmlFor="excerpt" className="block text-sm font-semibold text-gray-700 mb-1">
                 Short Excerpt *
@@ -149,6 +179,7 @@ export default function NewPostPage() {
               />
             </div>
 
+            {/* Rich Text Editor (Tiptap) */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">
                 Content * <span className="text-gray-400 font-normal text-xs">(min. 30 characters)</span>
@@ -156,6 +187,7 @@ export default function NewPostPage() {
               <TiptapEditor onChange={setContentHtml} />
             </div>
 
+            {/* Form Actions */}
             <div className="pt-4 flex justify-end">
               <button
                 type="submit"

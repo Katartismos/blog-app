@@ -1,3 +1,15 @@
+/**
+ * Header Component
+ * 
+ * The main navigation bar of the application. It features:
+ * - Brand logo and navigation links
+ * - Search bar integration
+ * - Authentication controls (Sign In / Sign Out / User Profile)
+ * - "Create a Post" shortcut for logged-in users
+ * - GSAP entrance animations for a professional feel
+ * - Responsive mobile menu
+ */
+
 'use client'
 
 import { useState, useRef } from 'react';
@@ -9,25 +21,33 @@ import { Search, PenSquare, Newspaper, Menu, X, User2 } from 'lucide-react';
 import { useSession, signIn, signOut } from 'next-auth/react'; 
 
 const Header = () => {
+  // Local state for toggling menus
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  
+  // Access session data from NextAuth
   const { data: session, status } = useSession();
+  
   const headerRef = useRef(null);
   const logoRef = useRef(null);
 
+  /**
+   * GSAP Animations
+   */
   useGSAP(() => {
-    // Animation for Header container (fades down slightly)
+    // Header container: slides down from top
     gsap.fromTo(headerRef.current, 
       { y: -50, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", clearProps: "all" }
     );
     
-    // Stagger the logo and nav items for a professional feel
+    // Logo: slides in from the left
     gsap.fromTo(logoRef.current, 
       { x: -20, opacity: 0 },
       { x: 0, opacity: 1, duration: 0.5, delay: 0.3, clearProps: "all" }
     );
 
+    // Nav items: staggered entrance from top
     gsap.fromTo(".nav-item", 
       { y: -10, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.4, stagger: 0.1, delay: 0.5, ease: "back.out(1.7)", clearProps: "all" }
@@ -46,7 +66,8 @@ const Header = () => {
     <header className="bg-white shadow-md sticky top-0 z-10" ref={headerRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          {/* Logo */}
+          
+          {/* Logo Section */}
           <Link href="/" className="flex items-center space-x-2" ref={logoRef}>
             <Newspaper className="text-amber-700" size={28} />
             <span className="text-2xl font-bold text-gray-800">K-BLOG</span>
@@ -63,7 +84,8 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
-            {/* Search Bar */}
+            
+            {/* Inline Search Bar */}
             <div className="nav-item relative">
               <input 
                 type="text" 
@@ -74,8 +96,9 @@ const Header = () => {
             </div>
           </nav>
 
-          {/* Actions & Mobile Menu Button */}
+          {/* User Actions & Mobile Menu Button */}
           <div className="flex items-center space-x-4">
+            {/* Show "Create a Post" only if authenticated */}
             {status === "authenticated" && (
               <Link href="/new" className="nav-item hidden sm:flex items-center space-x-2 bg-amber-700 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-md hover:bg-amber-800 transition">
                 <PenSquare size={16} />
@@ -83,7 +106,7 @@ const Header = () => {
               </Link>
             )}
 
-            {/* User Avatar & Dropdown */}
+            {/* User Avatar / Dropdown Trigger */}
             <div className="relative nav-item">
               <div 
                 className="h-10 w-10 bg-gray-100 rounded-full cursor-pointer flex items-center justify-center overflow-hidden border border-gray-200"
@@ -96,11 +119,12 @@ const Header = () => {
                 )}
               </div>
 
-              {/* Dropdown Menu */}
+              {/* User Dropdown Menu */}
               {isUserMenuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 border border-gray-100">
                   {status === "authenticated" ? (
                     <>
+                      {/* Authenticated State */}
                       <div className="px-4 py-2 text-sm text-gray-700 border-b border-gray-100">
                         <p className="font-semibold truncate">{session.user?.name || "User"}</p>
                       </div>
@@ -113,6 +137,7 @@ const Header = () => {
                     </>
                   ) : (
                     <>
+                      {/* Guest State */}
                       <div className="px-4 py-2 text-sm text-gray-700 border-b border-gray-100">
                         <p className="font-semibold">Guest</p>
                       </div>
@@ -128,6 +153,7 @@ const Header = () => {
               )}
             </div>
             
+            {/* Mobile Menu Toggle Button */}
             <button 
               className="lg:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -170,4 +196,4 @@ const Header = () => {
   );
 };
 
-export default Header
+export default Header

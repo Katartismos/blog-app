@@ -1,14 +1,27 @@
+/**
+ * ScrollToTopButton Component
+ * 
+ * A floating action button (FAB) that appears when the user scrolls down.
+ * It provides a quick way to return to the top of the page with a smooth animation.
+ */
+
 'use client'
 
 import { useState, useEffect } from 'react'
 import { ArrowUp } from 'lucide-react'
 
 export default function ScrollToTopButton() {
+  // State to track if the button should be visible
   const [isVisible, setIsVisible] = useState(false)
 
+  /**
+   * Effect: Scroll Listener
+   * 
+   * Monitors the window scroll position and toggles visibility 
+   * when the user has scrolled past a certain threshold (300px).
+   */
   useEffect(() => {
     const toggleVisibility = () => {
-      // Show when scrolled down 300px
       if (window.scrollY > 300) {
         setIsVisible(true)
       } else {
@@ -17,9 +30,15 @@ export default function ScrollToTopButton() {
     }
 
     window.addEventListener('scroll', toggleVisibility)
+    // Cleanup listener on component unmount
     return () => window.removeEventListener('scroll', toggleVisibility)
   }, [])
 
+  /**
+   * scrollToTop
+   * 
+   * Triggers the native browser smooth scroll to the top of the document.
+   */
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,

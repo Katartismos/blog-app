@@ -1,3 +1,10 @@
+/**
+ * Featured Article Card Component
+ * 
+ * Displays a large, high-impact card for featured blog posts.
+ * Utilizes GSAP for entrance animations and interactive hover effects.
+ */
+
 'use client'
 
 import { useRef } from 'react'
@@ -10,42 +17,52 @@ import type { Article } from '@/lib/constants'
 
 interface FeaturedArticleProps {
   article: Article;
-  index: number;
+  index: number; // Used for staggered entrance animation delay
 }
 
 const FeaturedArticleCard: React.FC<FeaturedArticleProps> = ({ article, index }) => {
   const { title, excerpt, imageUrl, categoryColor } = article;
   const cardRef = useRef<HTMLAnchorElement | null>(null);
 
+  /**
+   * Animation Logic (GSAP)
+   */
   useGSAP(() => {
     const ctx = gsap.context(() => {
       const cardElement = cardRef.current;
       if (!cardElement) return;
 
-      // Staggered entry for the featured section
+      // Initial staggered entrance animation
       gsap.from(cardElement, {
         y: 50,
         opacity: 0,
         duration: 0.8,
-        delay: 0.6 + index * 0.15, // Stagger based on index
+        delay: 0.6 + index * 0.15, // Delay increases with index for "flowing" effect
         ease: "back.out(1.2)"
       });
 
-      // Hover animation for scale and lift
+      // Interactive hover animation: card scales up and lifts slightly
       cardElement.addEventListener('mouseenter', () => {
         gsap.to(cardElement, { scale: 1.03, y: -5, duration: 0.3, ease: "power1.out" });
       });
 
+      // Reset animation when hover ends
       cardElement.addEventListener('mouseleave', () => {
         gsap.to(cardElement, { scale: 1, y: 0, duration: 0.3, ease: "power1.out" });
       });
     });
 
+    // Cleanup animations on unmount
     return () => ctx.revert();
   }, { scope: cardRef, dependencies: [index] });
   
   return (
-    <Link href={article.slug ? `/blog/${article.slug}` : '#'} className="relative block h-90 w-full rounded-xl overflow-hidden shadow-xl group" ref={cardRef}>
+    <Link 
+      href={article.slug ? `/blog/${article.slug}` : '#'} 
+      className="relative block h-90 w-full rounded-xl overflow-hidden shadow-xl group" 
+      ref={cardRef}
+    >
+      {/* Background Image with fallback handling */}
       <Image 
         src={imageUrl} 
         alt={title} 
@@ -58,12 +75,18 @@ const FeaturedArticleCard: React.FC<FeaturedArticleProps> = ({ article, index })
         width={335}
         height={200}
       />
+      
+      {/* Overlay Content (Title, Category, Excerpt) */}
       <div className="absolute inset-0 bg-linear-to-t from-gray-900/80 to-transparent p-6 flex flex-col justify-end">
+        {/* Category Badge */}
         <span className={`inline-block text-xs font-semibold px-3 py-1 rounded-full text-white mb-2 text-center ${categoryColor}`}>
           {article.category}
         </span>
+        
         <h3 className="text-xl font-bold text-white mb-2 line-clamp-2">{title}</h3>
         <p className="text-sm text-gray-300 line-clamp-2">{excerpt}</p>
+        
+        {/* Call to Action */}
         <span className="mt-4 inline-block text-center w-32 px-4 py-2 bg-white text-gray-800 text-sm font-semibold rounded-full hover:bg-gray-200 transition duration-150 cursor-pointer">
           READ MORE
         </span>
@@ -72,4 +95,4 @@ const FeaturedArticleCard: React.FC<FeaturedArticleProps> = ({ article, index })
   );
 };
 
-export default FeaturedArticleCard
+export default FeaturedArticleCard

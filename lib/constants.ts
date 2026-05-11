@@ -1,3 +1,17 @@
+/**
+ * Shared Constants and Types
+ * 
+ * This file contains global type definitions, constant configurations (like colors),
+ * and sample mock data used for the initial state of the application.
+ */
+
+/**
+ * Article Interface
+ * 
+ * Defines the plain object structure of a blog post as used in the UI.
+ * This is slightly different from the database model (IBlogPost) to 
+ * simplify client-side rendering.
+ */
 export interface Article { 
   _id?: string;
   slug?: string;
@@ -15,6 +29,12 @@ export interface ArticleProps {
   article: Article;
 }
 
+/**
+ * Category Color Mapping
+ * 
+ * Maps uppercase category names to Tailwind CSS background color classes.
+ * These are used dynamically throughout the app (Header, Cards, Sidebar).
+ */
 export const CATEGORY_COLORS: Record<string, string> = {
   TECHNOLOGY: 'bg-indigo-600',
   TRAVEL: 'bg-sky-500',
@@ -24,6 +44,11 @@ export const CATEGORY_COLORS: Record<string, string> = {
   GAMING: 'bg-violet-600',
 };
 
+/**
+ * Mock Data: Featured Articles
+ * 
+ * Used as a fallback or for demonstration before database integration.
+ */
 export const featuredArticles: Article[] = [
   { 
     title: 'Innovate & Create', 
@@ -57,6 +82,9 @@ export const featuredArticles: Article[] = [
   },
 ];
 
+/**
+ * Mock Data: Latest Articles
+ */
 export const latestArticles: Article[] = [
   { 
     title: "AI's Impact on Future Tech", 
@@ -118,4 +146,4 @@ export const latestArticles: Article[] = [
     readTime: '10-min read', 
     imageUrl: '/images/vr-gaming.jpg' 
   },
-];
+];

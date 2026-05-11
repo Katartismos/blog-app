@@ -1,3 +1,13 @@
+/**
+ * Home Client Component
+ * 
+ * The client-side controller for the home page. Manages:
+ * - Filtering of articles by category
+ * - Grid layout logic for "Latest Articles" (asymmetric layout)
+ * - GSAP animations for the main content sections
+ * - Integration of Header, Footer, Sidebar, and Article Cards
+ */
+
 'use client'
 
 import { useRef, useState } from 'react'
@@ -15,26 +25,44 @@ import type { Article } from '@/lib/constants'
 interface HomeClientProps {
   featuredArticles: Article[];
   latestArticles: Article[];
-  hasMore?: boolean;
-  topics?: { name: string; count: number }[];
+  hasMore?: boolean; // Indicates if there are more posts beyond the displayed ones
+  topics?: { name: string; count: number }[]; // Category counts for the sidebar
 }
 
 const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticles, hasMore = false, topics }) => {
   const mainRef = useRef<HTMLDivElement | null>(null);
+  
+  // State for the currently active category filter
   const [selectedTag, setSelectedTag] = useState<string>('All');
 
+  /**
+   * Filter Logic
+   * 
+   * Filters the 'latestArticles' array based on the selected category from the sidebar.
+   */
   const filteredArticles = selectedTag === 'All' 
     ? latestArticles 
     : latestArticles.filter(article => (article.category || 'TECHNOLOGY').toUpperCase() === selectedTag.toUpperCase());
 
-  // Safe mapping for layout using indexes instead of IDs
+  /**
+   * Layout Mapping
+   * 
+   * Maps filtered articles into specific slots to create an asymmetric, masonry-style grid.
+   * - col1: Large cards
+   * - col2_row1: Two small cards
+   * - col2_row2: Two small cards
+   */
   const articleMap = {
     col1: [filteredArticles[0], filteredArticles[3]].filter(Boolean),
     col2_row1: [filteredArticles[1], filteredArticles[2]].filter(Boolean),
     col2_row2: [filteredArticles[4], filteredArticles[5]].filter(Boolean),
   };
 
+  /**
+   * GSAP Animations
+   */
   useGSAP(() => {
+    // Reveal section titles
     gsap.fromTo(".latest-articles-title", 
       { y: 20, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.7, delay: 1.0, ease: "power2.out", clearProps: "all" }
@@ -45,9 +73,21 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
       { x: 0, opacity: 1, duration: 0.6, delay: 1.2, ease: "power1.out", clearProps: "all" }
     );
 
+    // Staggered reveal for individual article cards
     gsap.fromTo(".latest-article-card", 
       { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, delay: 1.3, ease: "power2.out", onComplete: () => { gsap.set(".latest-article-card", { clearProps: "transform" }); } }
+      { 
+        y: 0, 
+        opacity: 1, 
+        duration: 0.6, 
+        stagger: 0.08, 
+        delay: 1.3, 
+        ease: "power2.out", 
+        onComplete: () => { 
+          // Clear transform props to prevent issues with hover animations defined elsewhere
+          gsap.set(".latest-article-card", { clearProps: "transform" }); 
+        } 
+      }
     );
 
   }, { scope: mainRef });
@@ -58,6 +98,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
 
       <main className="max-w-[90%] mx-auto px-4 sm:px-2 lg:px-20 py-10" ref={mainRef}>
           
+        {/* Featured Section: Displays the top 3 articles */}
         <section className="mb-16">
           <h2 className="sr-only">Featured Articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -72,6 +113,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
           </div>
         </section>
 
+        {/* What's New Section: Main content grid with sidebar */}
         <section>
           <h3 className="whats-new-title text-2xl font-bold text-gray-800 mb-8 pb-2 border-b-2 border-amber-700 inline-block">
             {selectedTag === 'All' ? "WHAT'S NEW" : selectedTag.toUpperCase()}
@@ -79,8 +121,10 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
               
+            {/* Articles Column */}
             <div className="lg:col-span-2 grid gap-8">
                 
+              {/* Row 1: 1 Large Card, 2 Small Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 {articleMap.col1[0] && <LatestArticleCard article={articleMap.col1[0]} isSmallCard={false} />}
                 <div className="flex flex-col gap-8 h-full">
@@ -90,6 +134,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
                 </div>
               </div>
 
+              {/* Row 2: 2 Small Cards, 1 Large Card (Inverse of Row 1) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-8 h-full">
                   {articleMap.col2_row2.map((article, idx) => (
@@ -99,6 +144,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
                 {articleMap.col1[1] && <LatestArticleCard article={articleMap.col1[1]} isSmallCard={false} />}
               </div>
 
+              {/* Load More Trigger */}
               {(selectedTag === 'All' ? hasMore : (topics?.find(t => t.name.toUpperCase() === selectedTag.toUpperCase())?.count || 0) > 6) && (
                 <div className="text-center pt-8">
                   <Link href="/others" className="inline-block latest-articles-title px-6 py-2 border border-gray-300 text-gray-600 font-semibold rounded-full hover:bg-gray-100 transition cursor-pointer">
@@ -108,6 +154,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
               )}
             </div>
 
+            {/* Sidebar Column */}
             <div className="lg:col-span-1">
               <Sidebar topics={topics} selectedTag={selectedTag} onSelectTag={setSelectedTag} />
             </div>

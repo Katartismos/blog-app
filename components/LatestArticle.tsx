@@ -1,10 +1,19 @@
+/**
+ * Latest Article Card Component
+ * 
+ * Renders a blog post card for the "Latest" section.
+ * Supports two visual variants:
+ * 1. Small Card: Horizontal layout with image on the left.
+ * 2. Regular Card: Vertical layout with image on top.
+ */
+
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Article } from '@/lib/constants'
 
 interface LatestArticleProps {
   article: Article;
-  isSmallCard?: boolean;
+  isSmallCard?: boolean; // Toggles between the horizontal and vertical layout
 }
 
 const LatestArticleCard: React.FC<LatestArticleProps> = ({ article, isSmallCard = false }) => {
@@ -12,9 +21,13 @@ const LatestArticleCard: React.FC<LatestArticleProps> = ({ article, isSmallCard 
 
   const href = article.slug ? `/blog/${article.slug}` : '#';
 
+  /**
+   * Variant 1: Small (Horizontal) Card
+   */
   if (isSmallCard) {
     return (
       <Link href={href} className="latest-article-card flex flex-1 bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition duration-300 cursor-pointer overflow-hidden transform">
+        {/* Left: Image Container */}
         <div className="w-1/3 relative">
           <Image 
             src={imageUrl} 
@@ -24,6 +37,8 @@ const LatestArticleCard: React.FC<LatestArticleProps> = ({ article, isSmallCard 
             sizes="(max-width: 768px) 100vw, 33vw"
           />
         </div>
+        
+        {/* Right: Content Container */}
         <div className="p-4 flex flex-col justify-center w-2/3">
           <span className={`inline-block text-xs font-semibold px-2 py-0.5 rounded text-white ${categoryColor} mb-2 self-start`}>
             {article.category}
@@ -39,8 +54,12 @@ const LatestArticleCard: React.FC<LatestArticleProps> = ({ article, isSmallCard 
     );
   }
   
+  /**
+   * Variant 2: Regular (Vertical) Card
+   */
   else return (
     <Link href={href} className="latest-article-card block bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition duration-300 cursor-pointer overflow-hidden transform">
+      {/* Top: Image Container */}
       <div className="w-full h-48 relative">
         <Image 
           src={imageUrl} 
@@ -50,12 +69,16 @@ const LatestArticleCard: React.FC<LatestArticleProps> = ({ article, isSmallCard 
           sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>
+      
+      {/* Bottom: Content Container */}
       <div className="p-5">
         <span className={`inline-block text-xs font-semibold px-3 py-1 rounded-md text-white ${categoryColor} mb-3`}>
           {article.category}
         </span>
         <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">{title}</h3>
         <p className="text-gray-600 mb-4 text-sm line-clamp-2">{excerpt}</p>
+        
+        {/* Meta info: Author, Date, Read Time */}
         <div className="flex justify-between items-center text-xs text-gray-500">
           <div>
             <span>{author}</span>
@@ -69,4 +92,4 @@ const LatestArticleCard: React.FC<LatestArticleProps> = ({ article, isSmallCard 
   );
 };
 
-export default LatestArticleCard
+export default LatestArticleCard

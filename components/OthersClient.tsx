@@ -1,3 +1,13 @@
+/**
+ * Others Client Component
+ * 
+ * The client-side controller for the "Archives" / "Older Posts" page.
+ * features:
+ * - A tag cloud for filtering posts by category.
+ * - A responsive 3-column grid layout for displaying posts.
+ * - GSAP animations for smooth content loading.
+ */
+
 'use client'
 
 import { useRef, useState } from 'react'
@@ -9,6 +19,7 @@ import Footer from '@/components/Footer'
 import LatestArticleCard from '@/components/LatestArticle'
 import type { Article } from '@/lib/constants'
 
+// Fallback topics to show in the tag cloud if none are provided from the server
 const FALLBACK_TOPICS = [
   { name: 'Technology', count: 0 },
   { name: 'Lifestyle', count: 0 },
@@ -24,18 +35,30 @@ interface OthersClientProps {
 
 const OthersClient: React.FC<OthersClientProps> = ({ olderPosts, topics }) => {
   const mainRef = useRef<HTMLDivElement | null>(null);
+  
+  // State for active category filter
   const [selectedTag, setSelectedTag] = useState<string>('All');
 
+  /**
+   * Filter Logic
+   * 
+   * Filters the 'olderPosts' array based on the selected tag.
+   */
   const filteredPosts = selectedTag === 'All'
     ? olderPosts
     : olderPosts.filter(article => (article.category || 'TECHNOLOGY').toUpperCase() === selectedTag.toUpperCase());
 
+  /**
+   * GSAP Animations
+   */
   useGSAP(() => {
+    // Title reveal
     gsap.fromTo(".others-page-title", 
       { y: 20, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.7, delay: 0.8, ease: "power2.out", clearProps: "all" }
     );
 
+    // Grid items staggered reveal
     gsap.fromTo(".older-article-card", 
       { y: 30, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, delay: 1.0, ease: "power2.out", onComplete: () => { gsap.set(".older-article-card", { clearProps: "transform" }); } }
@@ -48,13 +71,15 @@ const OthersClient: React.FC<OthersClientProps> = ({ olderPosts, topics }) => {
 
       <main className="grow max-w-[90%] mx-auto px-4 sm:px-2 lg:px-20 py-10" ref={mainRef}>
         <section className="mb-16">
+          
+          {/* Header Section: Title and Tag Cloud */}
           <div className="mb-12 border-b border-gray-200 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h1 className="others-page-title text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">OLDER POSTS</h1>
               <p className="others-page-title text-gray-600">Discover more from our archives.</p>
             </div>
 
-            {/* Horizontal Tag Cloud */}
+            {/* Horizontal Tag Cloud (Filters) */}
             <div className="others-page-title flex flex-wrap gap-2">
               {['All', ...(topics || FALLBACK_TOPICS).map(t => t.name)].map((tag, idx) => (
                 <span 
@@ -72,6 +97,7 @@ const OthersClient: React.FC<OthersClientProps> = ({ olderPosts, topics }) => {
             </div>
           </div>
 
+          {/* Posts Grid */}
           {filteredPosts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredPosts.map((article, idx) => (
@@ -81,6 +107,7 @@ const OthersClient: React.FC<OthersClientProps> = ({ olderPosts, topics }) => {
               ))}
             </div>
           ) : (
+            /* Empty State */
             <div className="text-center py-20">
               <h3 className="text-4xl text-gray-500 font-medium pt-30">No older posts found.</h3>
             </div>

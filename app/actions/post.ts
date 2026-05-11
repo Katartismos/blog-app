@@ -1,3 +1,15 @@
+/**
+ * Post Server Actions
+ * 
+ * Contains functions that run on the server to handle blog post operations.
+ * Currently supports creating new posts with:
+ * - Authentication verification
+ * - HTML sanitization
+ * - Image upload to Cloudinary
+ * - Database storage via Mongoose
+ * - Cache revalidation
+ */
+
 'use server'
 
 import { revalidatePath } from 'next/cache';
@@ -6,6 +18,12 @@ import BlogPost from '@/lib/models/BlogPost';
 import sanitizeHtml from 'sanitize-html';
 import { auth } from '@/auth';
 
+/**
+ * HTML Sanitization Options
+ * 
+ * Defines which tags and attributes are allowed in the blog post content.
+ * This prevents XSS attacks by stripping malicious scripts and styles.
+ */
 const sanitizeOptions: sanitizeHtml.IOptions = {
   allowedTags: [
     'p', 'br', 'strong', 'em', 'u', 's',
@@ -20,26 +38,38 @@ const sanitizeOptions: sanitizeHtml.IOptions = {
   allowedSchemes: ['http', 'https', 'mailto'],
 };
 
+/**
+ * createPost
+ * 
+ * A Server Action to create a new blog post.
+ * 
+ * @param {FormData} formData - The submitted form data containing title, content, image, etc.
+ * @returns {Promise<{error?: string, success?: boolean}>} Result of the operation.
+ */
 export async function createPost(formData: FormData) {
+  // 1. Verify User Authentication
   const session = await auth();
   if (!session?.user) {
     return { error: 'You must be logged in to create a post.' };
   }
 
+  // 2. Extract Data from FormData
   const title = formData.get('title') as string;
   const rawContent = formData.get('content') as string;
   const excerpt = formData.get('excerpt') as string;
   const category = (formData.get('category') as string || 'TECHNOLOGY').toUpperCase();
   const imageFile = formData.get('image') as File | null;
 
+  // 3. Basic Field Validation
   if (!title || !rawContent) {
     return { error: 'Title and content are required fields.' };
   }
 
-  // Sanitize the HTML content before any further processing or storage
+  // 4. Content Sanitization
+  // Sanitize the HTML content to prevent XSS.
   const content = sanitizeHtml(rawContent, sanitizeOptions);
 
-  // Server-side plain-text length check (security backstop for the 30-char rule)
+  // 5. Length Validation (Plain Text)
   const plainText = content.replace(/<[^>]+>/g, '').trim();
   if (plainText.length < 30) {
     return { error: 'Content must be at least 30 characters long.' };
@@ -53,10 +83,12 @@ export async function createPost(formData: FormData) {
     return { error: 'An image is required.' };
   }
 
+  // 6. Image Upload to Cloudinary
   let imageUrl = '';
   if (imageFile && imageFile.size > 0) {
     const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
     const uploadPreset = process.env.CLOUDINARY_PRESET_NAME;
+    
     if (!cloudName || !uploadPreset) {
       return { error: 'Cloudinary configuration is missing.' };
     }
@@ -83,14 +115,18 @@ export async function createPost(formData: FormData) {
     }
   }
 
+  // 7. Database Persistence
   try {
     await connectToDatabase();
 
+    // Format display date
     const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    // Strip HTML tags before counting words for an accurate read-time estimate
+    
+    // Estimate read time (assuming 200 words per minute)
     const words = plainText.split(/\s+/).filter(Boolean).length;
     const readTime = Math.ceil(words / 200) + '-min read';
 
+    // Create the document in MongoDB
     await BlogPost.create({
       title,
       content,
@@ -109,6 +145,9 @@ export async function createPost(formData: FormData) {
     return { error: errorMessage || 'Failed to create the blog post. Please try again later.' };
   }
 
+  // 8. Revalidate Cache
+  // Forces Next.js to refresh the home page data so the new post appears immediately.
   revalidatePath('/');
+  
   return { success: true };
 }
