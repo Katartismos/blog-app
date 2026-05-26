@@ -24,7 +24,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <Header />
       
       <main className="grow max-w-[90%] mx-auto px-4 sm:px-2 lg:px-20 py-10 w-full mt-10">
-        <article className="max-w-4xl mx-auto bg-white dark:bg-slate-900 border dark:border-slate-800/60 rounded-2xl shadow-xl overflow-hidden">
+        <article className="max-w-4xl mx-auto bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800/60 rounded-2xl shadow-xl overflow-hidden">
           {post.imageUrl ? (
             <div className="w-full h-64 sm:h-96 relative">
               <Image 

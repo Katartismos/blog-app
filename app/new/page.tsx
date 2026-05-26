@@ -102,7 +102,7 @@ export default function NewPostPage() {
       <Header />
       
       <main className="grow max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full mt-10">
-        <div className="bg-white dark:bg-slate-900 border dark:border-slate-800/60 rounded-2xl shadow-lg p-8 sm:p-10">
+        <div className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800/60 rounded-2xl shadow-lg p-8 sm:p-10">
           <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 mb-8 pb-4 border-b border-gray-100 dark:border-slate-800">Create a New Post</h1>
           
           {/* Error Message Display */}

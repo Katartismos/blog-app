@@ -229,7 +229,7 @@ const Header = () => {
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <div className="lg:hidden absolute top-full w-full bg-white dark:bg-slate-900 border-b dark:border-slate-800 shadow-xl p-4 transition-all duration-300">
+        <div className="lg:hidden absolute top-full w-full bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 shadow-xl p-4 transition-all duration-300">
           {navItems.map((item) => (
             <Link 
               key={item.name}
@@ -240,7 +240,7 @@ const Header = () => {
               {item.name}
             </Link>
           ))}
-          <div className="mt-4 border-t dark:border-slate-800 pt-4">
+          <div className="mt-4 border-t border-gray-100 dark:border-slate-800 pt-4">
             <input 
               type="text" 
               placeholder="Search articles..." 

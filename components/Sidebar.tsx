@@ -55,8 +55,8 @@ const Sidebar: React.FC<SidebarProps> = ({ topics, selectedTag = 'All', onSelect
   return (
     <div className="space-y-8 p-4 md:p-0" ref={sidebarRef}>
       {/* Section 1: Explore Topics (List View) */}
-      <div className="bg-white dark:bg-slate-900 border dark:border-slate-800/60 p-6 rounded-xl shadow-md">
-        <h4 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 border-b dark:border-slate-850 pb-2">EXPLORE TOPICS</h4>
+      <div className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800/60 p-6 rounded-xl shadow-md">
+        <h4 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 border-b border-gray-100 dark:border-slate-850 pb-2">EXPLORE TOPICS</h4>
         <ul className="space-y-3">
           {(topics || FALLBACK_TOPICS).map((topic, index) => (
             <li key={index} className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-500 transition cursor-pointer">
@@ -68,8 +68,8 @@ const Sidebar: React.FC<SidebarProps> = ({ topics, selectedTag = 'All', onSelect
       </div>
 
       {/* Section 2: Categories (Tag Cloud View) */}
-      <div className="bg-white dark:bg-slate-900 border dark:border-slate-800/60 p-6 rounded-xl shadow-md">
-        <h4 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 border-b dark:border-slate-850 pb-2">CATEGORIES</h4>
+      <div className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800/60 p-6 rounded-xl shadow-md">
+        <h4 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 border-b border-gray-100 dark:border-slate-850 pb-2">CATEGORIES</h4>
         <div className="flex flex-wrap gap-2">
           {['All', ...(topics || FALLBACK_TOPICS).map(t => t.name)].map((tag, index) => (
             <span 
@@ -88,7 +88,7 @@ const Sidebar: React.FC<SidebarProps> = ({ topics, selectedTag = 'All', onSelect
       </div>
 
       {/* Section 3: Newsletter Signup */}
-      <div className="bg-amber-50 dark:bg-amber-950/15 border dark:border-amber-900/20 p-6 rounded-xl shadow-md">
+      <div className="bg-amber-50 dark:bg-amber-950/15 border border-transparent dark:border-amber-900/20 p-6 rounded-xl shadow-md">
         <h4 className="text-lg font-bold text-gray-800 dark:text-amber-600 mb-2">NEVER MISS A STORY!</h4>
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">Subscribe to our weekly newsletter.</p>
         <input 
