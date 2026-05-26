@@ -27,7 +27,7 @@ interface GlobalMongoose {
   mongoose: { conn: mongoose.Connection | null; promise: Promise<mongoose.Connection> | null };
 }
 
-let globalWithMongoose = global as unknown as GlobalMongoose;
+const globalWithMongoose = global as unknown as GlobalMongoose;
 
 // Initialize the global mongoose object if it doesn't exist
 if (!globalWithMongoose.mongoose) {

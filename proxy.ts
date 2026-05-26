@@ -9,6 +9,7 @@
 
 import { auth } from "./auth";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default auth((_req) => {
   // Session is accessible globally here via req.auth.
   // This allows for global logic (e.g., redirection, analytics) 

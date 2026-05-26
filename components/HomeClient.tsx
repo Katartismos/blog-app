@@ -93,7 +93,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
   }, { scope: mainRef });
 
   return (
-    <div className="min-h-screen bg-gray-50 antialiased">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-gray-100 antialiased transition-colors duration-300">
       <Header />
 
       <main className="max-w-[90%] mx-auto px-4 sm:px-2 lg:px-20 py-10" ref={mainRef}>
@@ -108,14 +108,14 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
           </div>
           
           <div className="mt-12">
-            <h3 className="latest-articles-title text-xl font-bold text-gray-800 mb-2">EXPLORE OUR LATEST ARTICLES</h3>
-            <a href="#" className="latest-articles-title text-amber-700 hover:text-amber-900 text-sm font-medium">Join Our Community.</a>
+            <h3 className="latest-articles-title text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">EXPLORE OUR LATEST ARTICLES</h3>
+            <a href="#" className="latest-articles-title text-amber-700 dark:text-amber-500 hover:text-amber-900 dark:hover:text-amber-400 text-sm font-medium">Join Our Community.</a>
           </div>
         </section>
 
         {/* What's New Section: Main content grid with sidebar */}
         <section>
-          <h3 className="whats-new-title text-2xl font-bold text-gray-800 mb-8 pb-2 border-b-2 border-amber-700 inline-block">
+          <h3 className="whats-new-title text-2xl font-bold text-gray-800 dark:text-gray-100 mb-8 pb-2 border-b-2 border-amber-700 dark:border-amber-600 inline-block">
             {selectedTag === 'All' ? "WHAT'S NEW" : selectedTag.toUpperCase()}
           </h3>
 
@@ -147,7 +147,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ featuredArticles, latestArticle
               {/* Load More Trigger */}
               {(selectedTag === 'All' ? hasMore : (topics?.find(t => t.name.toUpperCase() === selectedTag.toUpperCase())?.count || 0) > 6) && (
                 <div className="text-center pt-8">
-                  <Link href="/others" className="inline-block latest-articles-title px-6 py-2 border border-gray-300 text-gray-600 font-semibold rounded-full hover:bg-gray-100 transition cursor-pointer">
+                  <Link href="/others" className="inline-block latest-articles-title px-6 py-2 border border-gray-300 dark:border-slate-800 text-gray-600 dark:text-gray-300 font-semibold rounded-full hover:bg-gray-100 dark:hover:bg-slate-900 transition cursor-pointer">
                     Load More
                   </Link>
                 </div>

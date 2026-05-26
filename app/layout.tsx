@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   title: "K-Blog — The Modern Editor's Choice",
   description: "A modern blog platform",
   icons: {
-    icon: '/newspaper.svg',
+    icon: '/articles2.png',
   },
 };
 
@@ -51,7 +51,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
       <body
         className={`${archivo.variable} ${geistMono.variable} font-sans antialiased`}
       >

@@ -41,8 +41,8 @@ function ToolbarButton({ onClick, isActive, title, children }: ToolbarButtonProp
       onClick={onClick}
       className={`px-2.5 py-1.5 rounded text-sm font-medium transition-colors duration-150 cursor-pointer ${
         isActive
-          ? 'bg-amber-700 text-white'
-          : 'text-gray-600 hover:bg-amber-50 hover:text-amber-800'
+          ? 'bg-amber-700 text-white dark:bg-amber-600'
+          : 'text-gray-600 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-slate-800 hover:text-amber-800 dark:hover:text-amber-550'
       }`}
     >
       {children}
@@ -54,7 +54,7 @@ function ToolbarButton({ onClick, isActive, title, children }: ToolbarButtonProp
  * ToolbarDivider Component
  */
 function ToolbarDivider() {
-  return <span className="w-px h-5 bg-gray-300 mx-1 self-center" />;
+  return <span className="w-px h-5 bg-gray-300 dark:bg-slate-800 mx-1 self-center" />;
 }
 
 export default function TiptapEditor({ onChange }: TiptapEditorProps) {
@@ -73,7 +73,7 @@ export default function TiptapEditor({ onChange }: TiptapEditorProps) {
       attributes: {
         // Tailwind classes for the editable area
         class:
-          'min-h-[300px] px-4 py-3 text-gray-800 focus:outline-none leading-relaxed',
+          'min-h-[300px] px-4 py-3 text-gray-800 dark:text-gray-100 focus:outline-none leading-relaxed',
       },
     },
     // Trigger the callback whenever the content changes
@@ -87,10 +87,10 @@ export default function TiptapEditor({ onChange }: TiptapEditorProps) {
   if (!editor) return null;
 
   return (
-    <div className="rounded-lg border border-gray-300 focus-within:ring-1 focus-within:ring-amber-700 focus-within:border-amber-700 transition duration-150 overflow-hidden bg-white">
+    <div className="rounded-lg border border-gray-300 dark:border-slate-800 focus-within:ring-1 focus-within:ring-amber-700 focus-within:border-amber-700 transition duration-150 overflow-hidden bg-white dark:bg-slate-950">
       
       {/* Editor Toolbar: Contains all formatting controls */}
-      <div className="flex flex-wrap items-center gap-0.5 px-2 py-2 border-b border-gray-200 bg-gray-50">
+      <div className="flex flex-wrap items-center gap-0.5 px-2 py-2 border-b border-gray-200 dark:border-slate-800 bg-gray-50 dark:bg-slate-900">
         
         {/* Text Style Controls */}
         <ToolbarButton

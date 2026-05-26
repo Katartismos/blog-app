@@ -5,6 +5,8 @@ import BlogPost from '@/lib/models/BlogPost';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+export const dynamic = 'force-dynamic';
+
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   await connectToDatabase();
   
@@ -18,11 +20,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 antialiased flex flex-col">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-gray-100 antialiased flex flex-col transition-colors duration-300">
       <Header />
       
       <main className="grow max-w-[90%] mx-auto px-4 sm:px-2 lg:px-20 py-10 w-full mt-10">
-        <article className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+        <article className="max-w-4xl mx-auto bg-white dark:bg-slate-900 border dark:border-slate-800/60 rounded-2xl shadow-xl overflow-hidden">
           {post.imageUrl ? (
             <div className="w-full h-64 sm:h-96 relative">
               <Image 
@@ -42,15 +44,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                  {post.category}
                </span>
             </div>
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">{post.title}</h1>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 dark:text-gray-100 mb-6">{post.title}</h1>
             
-            <div className="flex items-center text-gray-500 text-sm mb-10 pb-6 border-b border-gray-100">
+            <div className="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-10 pb-6 border-b border-gray-100 dark:border-slate-800">
               {post.authorImage && (
-                <div className="relative w-8 h-8 mr-3 rounded-full overflow-hidden border border-gray-200 shrink-0">
+                <div className="relative w-8 h-8 mr-3 rounded-full overflow-hidden border border-gray-200 dark:border-slate-700 shrink-0">
                   <Image src={post.authorImage} alt={post.author} fill className="object-cover" sizes="32px" />
                 </div>
               )}
-              <span className="font-semibold text-amber-700 mr-2">{post.author}</span>
+              <span className="font-semibold text-amber-700 dark:text-amber-500 mr-2">{post.author}</span>
               <span>&bull;</span>
               <span className="mx-2">{post.date}</span>
               <span>&bull;</span>

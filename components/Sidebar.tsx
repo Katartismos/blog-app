@@ -55,21 +55,21 @@ const Sidebar: React.FC<SidebarProps> = ({ topics, selectedTag = 'All', onSelect
   return (
     <div className="space-y-8 p-4 md:p-0" ref={sidebarRef}>
       {/* Section 1: Explore Topics (List View) */}
-      <div className="bg-white p-6 rounded-xl shadow-md">
-        <h4 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">EXPLORE TOPICS</h4>
+      <div className="bg-white dark:bg-slate-900 border dark:border-slate-800/60 p-6 rounded-xl shadow-md">
+        <h4 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 border-b dark:border-slate-850 pb-2">EXPLORE TOPICS</h4>
         <ul className="space-y-3">
           {(topics || FALLBACK_TOPICS).map((topic, index) => (
-            <li key={index} className="flex justify-between items-center text-sm text-gray-600 hover:text-amber-600 transition cursor-pointer">
+            <li key={index} className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-500 transition cursor-pointer">
               <span>{topic.name}</span>
-              <span className="text-xs font-medium text-gray-400">({topic.count})</span>
+              <span className="text-xs font-medium text-gray-400 dark:text-gray-500">({topic.count})</span>
             </li>
           ))}
         </ul>
       </div>
 
       {/* Section 2: Categories (Tag Cloud View) */}
-      <div className="bg-white p-6 rounded-xl shadow-md">
-        <h4 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">CATEGORIES</h4>
+      <div className="bg-white dark:bg-slate-900 border dark:border-slate-800/60 p-6 rounded-xl shadow-md">
+        <h4 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4 border-b dark:border-slate-850 pb-2">CATEGORIES</h4>
         <div className="flex flex-wrap gap-2">
           {['All', ...(topics || FALLBACK_TOPICS).map(t => t.name)].map((tag, index) => (
             <span 
@@ -77,8 +77,8 @@ const Sidebar: React.FC<SidebarProps> = ({ topics, selectedTag = 'All', onSelect
               onClick={() => onSelectTag?.(tag)}
               className={`text-xs font-medium px-3 py-1 rounded-full border transition cursor-pointer ${
                 selectedTag === tag 
-                  ? 'bg-amber-700 text-white border-amber-600' 
-                  : 'border-gray-300 text-gray-600 hover:bg-amber-100'
+                  ? 'bg-amber-700 text-white border-amber-600 dark:bg-amber-600 dark:border-amber-500' 
+                  : 'border-gray-300 dark:border-slate-700 text-gray-600 dark:text-gray-300 hover:bg-amber-100 dark:hover:bg-slate-800 dark:hover:text-amber-500'
               }`}
             >
               {tag}
@@ -88,13 +88,13 @@ const Sidebar: React.FC<SidebarProps> = ({ topics, selectedTag = 'All', onSelect
       </div>
 
       {/* Section 3: Newsletter Signup */}
-      <div className="bg-amber-50 p-6 rounded-xl shadow-md">
-        <h4 className="text-lg font-bold text-gray-800 mb-2">NEVER MISS A STORY!</h4>
-        <p className="text-sm text-gray-600 mb-4">Subscribe to our weekly newsletter.</p>
+      <div className="bg-amber-50 dark:bg-amber-950/15 border dark:border-amber-900/20 p-6 rounded-xl shadow-md">
+        <h4 className="text-lg font-bold text-gray-800 dark:text-amber-600 mb-2">NEVER MISS A STORY!</h4>
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">Subscribe to our weekly newsletter.</p>
         <input 
           type="email" 
           placeholder="Email Address" 
-          className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-amber-500 focus:border-amber-500 text-sm text-black"
+          className="w-full p-3 rounded-lg border border-gray-300 dark:border-slate-800 focus:outline-none focus:ring-amber-500 focus:border-amber-500 text-sm text-black dark:text-white bg-white dark:bg-slate-900"
         />
         <button className="mt-3 w-full py-3 bg-amber-600 text-white font-semibold rounded-lg shadow-md cursor-pointer hover:bg-amber-800 active:bg-amber-700 transition">
             SUBSCRIBE

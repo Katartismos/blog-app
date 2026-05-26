@@ -26,7 +26,7 @@ const LatestArticleCard: React.FC<LatestArticleProps> = ({ article, isSmallCard 
    */
   if (isSmallCard) {
     return (
-      <Link href={href} className="latest-article-card flex flex-1 bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition duration-300 cursor-pointer overflow-hidden transform">
+      <Link href={href} className="latest-article-card flex flex-1 bg-white dark:bg-slate-900 rounded-xl shadow-lg hover:shadow-xl dark:shadow-slate-950/20 hover:scale-105 transition duration-300 cursor-pointer overflow-hidden transform border border-transparent dark:border-slate-800/60">
         {/* Left: Image Container */}
         <div className="w-1/3 relative">
           <Image 
@@ -43,8 +43,8 @@ const LatestArticleCard: React.FC<LatestArticleProps> = ({ article, isSmallCard 
           <span className={`inline-block text-xs font-semibold px-2 py-0.5 rounded text-white ${categoryColor} mb-2 self-start`}>
             {article.category}
           </span>
-          <h3 className="font-bold text-gray-900 line-clamp-2 text-md">{title}</h3>
-          <div className="mt-2 text-xs text-gray-500 flex items-center space-x-2">
+          <h3 className="font-bold text-gray-900 dark:text-gray-100 line-clamp-2 text-md">{title}</h3>
+          <div className="mt-2 text-xs text-gray-500 dark:text-gray-400 flex items-center space-x-2">
             <span>{author}</span>
             <span>&bull;</span>
             <span>{readTime}</span>
@@ -58,7 +58,7 @@ const LatestArticleCard: React.FC<LatestArticleProps> = ({ article, isSmallCard 
    * Variant 2: Regular (Vertical) Card
    */
   else return (
-    <Link href={href} className="latest-article-card block bg-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition duration-300 cursor-pointer overflow-hidden transform">
+    <Link href={href} className="latest-article-card block bg-white dark:bg-slate-900 rounded-xl shadow-lg hover:shadow-xl dark:shadow-slate-950/20 hover:scale-105 transition duration-300 cursor-pointer overflow-hidden transform border border-transparent dark:border-slate-800/60">
       {/* Top: Image Container */}
       <div className="w-full h-48 relative">
         <Image 
@@ -75,11 +75,11 @@ const LatestArticleCard: React.FC<LatestArticleProps> = ({ article, isSmallCard 
         <span className={`inline-block text-xs font-semibold px-3 py-1 rounded-md text-white ${categoryColor} mb-3`}>
           {article.category}
         </span>
-        <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">{title}</h3>
-        <p className="text-gray-600 mb-4 text-sm line-clamp-2">{excerpt}</p>
+        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 line-clamp-2">{title}</h3>
+        <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm line-clamp-2">{excerpt}</p>
         
         {/* Meta info: Author, Date, Read Time */}
-        <div className="flex justify-between items-center text-xs text-gray-500">
+        <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-450">
           <div>
             <span>{author}</span>
             <span className="mx-1">&bull;</span>

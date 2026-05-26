@@ -66,17 +66,17 @@ const OthersClient: React.FC<OthersClientProps> = ({ olderPosts, topics }) => {
   }, { scope: mainRef });
 
   return (
-    <div className="min-h-screen bg-gray-50 antialiased">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-gray-100 antialiased transition-colors duration-300">
       <Header />
 
       <main className="grow max-w-[90%] mx-auto px-4 sm:px-2 lg:px-20 py-10" ref={mainRef}>
         <section className="mb-16">
           
           {/* Header Section: Title and Tag Cloud */}
-          <div className="mb-12 border-b border-gray-200 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="mb-12 border-b border-gray-200 dark:border-slate-850 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="others-page-title text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">OLDER POSTS</h1>
-              <p className="others-page-title text-gray-600">Discover more from our archives.</p>
+              <h1 className="others-page-title text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-gray-100 mb-2">OLDER POSTS</h1>
+              <p className="others-page-title text-gray-600 dark:text-gray-300">Discover more from our archives.</p>
             </div>
 
             {/* Horizontal Tag Cloud (Filters) */}
@@ -87,8 +87,8 @@ const OthersClient: React.FC<OthersClientProps> = ({ olderPosts, topics }) => {
                   onClick={() => setSelectedTag(tag)}
                   className={`text-xs font-medium px-3 py-1 rounded-full border transition cursor-pointer ${
                     selectedTag === tag 
-                      ? 'bg-amber-700 text-white border-amber-700' 
-                      : 'border-gray-300 text-gray-600 hover:bg-amber-50'
+                      ? 'bg-amber-700 text-white border-amber-700 dark:bg-amber-600 dark:border-amber-500' 
+                      : 'border-gray-300 dark:border-slate-700 text-gray-600 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-slate-800 dark:hover:text-amber-500'
                   }`}
                 >
                   {tag}
@@ -109,7 +109,7 @@ const OthersClient: React.FC<OthersClientProps> = ({ olderPosts, topics }) => {
           ) : (
             /* Empty State */
             <div className="text-center py-20">
-              <h3 className="text-4xl text-gray-500 font-medium pt-30">No older posts found.</h3>
+              <h3 className="text-4xl text-gray-500 dark:text-gray-400 font-medium pt-30">No older posts found.</h3>
             </div>
           )}
         </section>

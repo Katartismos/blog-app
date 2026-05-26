@@ -13,6 +13,8 @@ import BlogPost from '@/lib/models/BlogPost';
 import OthersClient from '@/components/OthersClient';
 import type { Article } from '@/lib/constants';
 
+export const dynamic = 'force-dynamic';
+
 export default async function OthersPage() {
   // Ensure database connection
   await connectToDatabase();
@@ -30,6 +32,7 @@ export default async function OthersPage() {
   /**
    * Data Serialization
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const serializedPosts: Article[] = posts.map((post: any) => ({
     _id: String(post._id),
     slug: post.slug || '',

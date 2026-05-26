@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+.dark {
+  --background: #0b0f19;
+  --foreground: #f3f4f6;
 }
 
 @theme inline {
@@ -10,13 +17,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-archivo);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
@@ -81,3 +81,27 @@ body {
   float: left;
   height: 0;
 }
+
+/* ─── Dark-mode rich-text overrides ────────────────────────────────────────── */
+.dark .tiptap,
+.dark .prose-content {
+  color: #d1d5db; /* gray-300 */
+}
+
+.dark .tiptap strong,      .dark .prose-content strong      { color: #f9fafb; }
+.dark .tiptap h1, .dark .prose-content h1 { color: #f9fafb; }
+.dark .tiptap h2, .dark .prose-content h2 { color: #f3f4f6; }
+.dark .tiptap h3, .dark .prose-content h3 { color: #e5e7eb; }
+.dark .tiptap h4, .dark .prose-content h4 { color: #d1d5db; }
+.dark .tiptap h5, .dark .prose-content h5 { color: #d1d5db; }
+.dark .tiptap h6, .dark .prose-content h6 { color: #9ca3af; }
+
+.dark .tiptap blockquote, .dark .prose-content blockquote {
+  color: #9ca3af;
+  border-left-color: #f59e0b; /* amber-500 */
+}
+
+.dark .tiptap hr, .dark .prose-content hr {
+  border-top: 2px solid #1f2937; /* slate-800 */
+}
+

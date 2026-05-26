@@ -98,16 +98,16 @@ export default function NewPostPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 antialiased flex flex-col">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 antialiased flex flex-col transition-colors duration-300">
       <Header />
       
       <main className="grow max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full mt-10">
-        <div className="bg-white rounded-2xl shadow-lg p-8 sm:p-10">
-          <h1 className="text-3xl font-extrabold text-gray-900 mb-8 pb-4 border-b border-gray-100">Create a New Post</h1>
+        <div className="bg-white dark:bg-slate-900 border dark:border-slate-800/60 rounded-2xl shadow-lg p-8 sm:p-10">
+          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 mb-8 pb-4 border-b border-gray-100 dark:border-slate-800">Create a New Post</h1>
           
           {/* Error Message Display */}
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm font-medium">
+            <div className="mb-6 p-4 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 text-red-700 dark:text-red-400 rounded-lg text-sm font-medium">
               {error}
             </div>
           )}
@@ -115,14 +115,14 @@ export default function NewPostPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title Input */}
             <div>
-              <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-1">
+              <label htmlFor="title" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
                 Post Title *
               </label>
               <input
                 type="text"
                 id="title"
                 name="title"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 text-black"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-700 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 text-black dark:text-white bg-white dark:bg-slate-950"
                 placeholder="Enter a captivating title"
                 required
               />
@@ -131,13 +131,13 @@ export default function NewPostPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Category Selection */}
               <div>
-                <label htmlFor="category" className="block text-sm font-semibold text-gray-700 mb-1">
+                <label htmlFor="category" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
                   Category
                 </label>
                 <select
                   id="category"
                   name="category"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 bg-white text-gray-500"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-700 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 bg-white dark:bg-slate-950 text-gray-500 dark:text-gray-400"
                 >
                   <option value="TECHNOLOGY">Technology</option>
                   <option value="TRAVEL">Travel</option>
@@ -150,7 +150,7 @@ export default function NewPostPage() {
 
               {/* Image Upload Input */}
               <div>
-                <label htmlFor="image" className="block text-sm font-semibold text-gray-700 mb-1">
+                <label htmlFor="image" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
                   Upload Image *
                 </label>
                 <input
@@ -159,14 +159,14 @@ export default function NewPostPage() {
                   name="image"
                   accept="image/png, image/jpeg, image/jpg, image/svg+xml"
                   required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 text-black file:cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-700 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 text-black dark:text-white file:cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-amber-50 dark:file:bg-slate-800 file:text-amber-700 dark:file:text-amber-500 hover:file:bg-amber-100 dark:hover:file:bg-slate-705"
                 />
               </div>
             </div>
 
             {/* Short Excerpt Input */}
             <div>
-              <label htmlFor="excerpt" className="block text-sm font-semibold text-gray-700 mb-1">
+              <label htmlFor="excerpt" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
                 Short Excerpt *
               </label>
               <textarea
@@ -174,14 +174,14 @@ export default function NewPostPage() {
                 name="excerpt"
                 rows={2}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 resize-y text-black"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-700 focus:outline-none focus:ring-1 focus:ring-amber-700 focus:border-amber-700 transition duration-150 resize-y text-black dark:text-white bg-white dark:bg-slate-950"
                 placeholder="Brief summary of your post..."
               />
             </div>
 
             {/* Rich Text Editor (Tiptap) */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
                 Content * <span className="text-gray-400 font-normal text-xs">(min. 30 characters)</span>
               </label>
               <TiptapEditor onChange={setContentHtml} />
